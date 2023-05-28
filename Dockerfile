@@ -18,4 +18,4 @@ RUN yarn
 # EXPOSE 80
 
 # start app
-CMD ["yarn", "dev"]
+CMD ["yarn", "start:dev"]
