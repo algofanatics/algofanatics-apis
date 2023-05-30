@@ -1,9 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UserResponseDto {
-    @ApiProperty()
-    name: string;
+  @ApiProperty()
+  firstName: string;
 
-    @ApiProperty()
-    email: string;
+  @ApiProperty()
+  lastName: string;
+
+  @ApiProperty()
+  email: string;
 }
