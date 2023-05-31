@@ -14,33 +14,36 @@ import { UserResponseDto } from '../user/dto/user-respose.dto';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthenticationController {
-    constructor(private authService: AuthenticationService) { }
+  constructor(private authService: AuthenticationService) {}
 
-    @Post('signup')
-    async signup(@Body() createUserDto: CreateUserDto): Promise<ResponseDto<UserResponseDto & AuthToken>> {
-        return await this.authService.signUp(createUserDto);
-    }
+  @Post('signup')
+  async signup(
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<ResponseDto<UserResponseDto & AuthToken>> {
+    return await this.authService.signUp(createUserDto);
+  }
 
-    @Post('signin')
-    async signin(@Body() data: AuthDto): Promise<ResponseDto<UserResponseDto & AuthToken>> {
-        return await this.authService.signIn(data);
-    }
+  @Post('signin')
+  async signin(
+    @Body() data: AuthDto,
+  ): Promise<ResponseDto<UserResponseDto & AuthToken>> {
+    return await this.authService.signIn(data);
+  }
 
-    @ApiBearerAuth()
-    @ApiResponse({})
-    @UseGuards(AccessTokenGuard)
-    @Get('logout')
-    async logout(@GetUser() user: User) {
-       return await this.authService.logout(user.id);
-    }
+  @ApiBearerAuth()
+  @ApiResponse({})
+  @UseGuards(AccessTokenGuard)
+  @Get('logout')
+  async logout(@GetUser() user: User) {
+    return await this.authService.logout(user.id);
+  }
 
-    @ApiBearerAuth()
-    @UseGuards(RefreshTokenGuard)
-    @Get('refresh')
-    refreshTokens(@GetUser() user: User) {
-        const userId = user.id;
-        const refreshToken = user.refreshToken;
-        return this.authService.refreshTokens(userId, refreshToken);
-    }
-
+  @ApiBearerAuth()
+  @UseGuards(RefreshTokenGuard)
+  @Get('refresh')
+  refreshTokens(@GetUser() user: User) {
+    const userId = user.id;
+    const refreshToken = user.refreshToken;
+    return this.authService.refreshTokens(userId, refreshToken);
+  }
 }

@@ -1,18 +1,18 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from '../app.module';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-
 
 const logger: Logger = new Logger('Main');
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-
   const options = new DocumentBuilder()
     .setTitle('ALGOFANATICS API')
-    .setDescription('The Algofanatics API provides access to blog posts and personal portfolios of developers, offering resources and guidance for young engineers to excel in their careers.')
+    .setDescription(
+      'The Algofanatics API provides access to blog posts and personal portfolios of developers, offering resources and guidance for young engineers to excel in their careers.',
+    )
     .setVersion('1.0')
     .addBearerAuth() // Enable JWT authentication
     .build();

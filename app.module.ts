@@ -1,13 +1,13 @@
 import { Module, Logger } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthenticationModule } from './authentication/authentication.module';
+import { AuthenticationModule } from './src/authentication/authentication.module';
 import config from './config';
 import { JwtModule } from '@nestjs/jwt';
-import { UserModule } from './user/user.module';
+import { UserModule } from './src/user/user.module';
 import { PassportModule } from '@nestjs/passport';
-import { AccessTokenStrategy } from './authentication/strategies/accessToken.strategy';
-import { RefreshTokenStrategy } from './authentication/strategies/refreshToken.strategy';
+import { AccessTokenStrategy } from './src/authentication/strategies/accessToken.strategy';
+import { RefreshTokenStrategy } from './src/authentication/strategies/refreshToken.strategy';
 import { DevtoolsModule } from '@nestjs/devtools-integration';
 
 @Module({
@@ -21,9 +21,15 @@ import { DevtoolsModule } from '@nestjs/devtools-integration';
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('uri'),
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const logger = new Logger(AppModule.name);
+        logger.log('Connecting to MongoDB Database Successsful...');
+        return {
+          uri: configService.get<string>('uri'),
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+        };
+      },
       inject: [ConfigService],
     }),
     JwtModule.registerAsync({
