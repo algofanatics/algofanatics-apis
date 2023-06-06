@@ -2,10 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UserResponseDto {
   @ApiProperty()
-  firstName: string;
+  fullName: string;
 
   @ApiProperty()
-  lastName: string;
+  userName: string;
 
   @ApiProperty()
   email: string;

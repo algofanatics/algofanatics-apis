@@ -38,10 +38,10 @@ export class AuthenticationService {
       password: hash,
     });
     console.log(newUser, 'newUser');
-    const { firstName, lastName, email } = newUser;
+    const { fullName, userName, email } = newUser;
     const tokens = await this.getTokens(newUser._id, newUser.email);
     await this.updateRefreshToken(newUser._id, tokens.refreshToken);
-    const responseData = { firstName, lastName, email, ...tokens };
+    const responseData = { fullName, userName, email, ...tokens };
     return new ResponseDto<UserResponseDto & AuthToken>(
       'sign up successful',
       responseData,
@@ -53,7 +53,10 @@ export class AuthenticationService {
     data: AuthDto,
   ): Promise<ResponseDto<UserResponseDto & AuthToken>> {
     // Check if user exists
-    const user = await this.usersService.findByEmail(data.email);
+    const user = await this.usersService.findByEmailOrUsername(
+      data.username,
+      data.email,
+    );
     if (!user) throw new BadRequestException('User does not exist');
     const passwordMatches = await this.verifyData(data.password, user.password);
     console.log(passwordMatches, 'PPPPP');
@@ -61,8 +64,8 @@ export class AuthenticationService {
       throw new BadRequestException('Password is incorrect');
     const tokens = await this.getTokens(user._id, user.email);
     await this.updateRefreshToken(user._id, tokens.refreshToken);
-    const { firstName, lastName, email } = user;
-    const responseData = { firstName, lastName, email, ...tokens };
+    const { fullName, userName, email } = user;
+    const responseData = { fullName, userName, email, ...tokens };
     return new ResponseDto<UserResponseDto & AuthToken>(
       'logged in successfully',
       responseData,

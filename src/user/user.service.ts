@@ -38,4 +38,15 @@ export class UserService {
   async remove(id: string): Promise<UserDocument> {
     return this.userModel.findByIdAndDelete(id).exec();
   }
+
+  async findByEmailOrUsername(
+    username: string,
+    email: string,
+  ): Promise<UserDocument> {
+    return this.userModel
+      .findOne({
+        $or: [{ email }, { username }],
+      })
+      .exec();
+  }
 }
