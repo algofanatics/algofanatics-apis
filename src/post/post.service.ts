@@ -19,23 +19,26 @@ export class PostService {
     });
     return createdPost.save();
   }
+
+  async findById(id: string): Promise<PostDocument> {
+    return this.postModel
+      .findById(id)
+      .populate('user')
+      .populate('disLikes')
+      .populate('likes')
+      .exec();
+  }
+
+  async updatePost(
+    id: string,
+    updatePostDto: CreatePostDto,
+  ): Promise<PostDocument> {
+    return this.postModel
+      .findByIdAndUpdate(id, updatePostDto, { new: true })
+      .exec();
+  }
+
+  async deletePost(id: string): Promise<Post> {
+    return this.postModel.findByIdAndDelete(id).exec();
+  }
 }
-
-// async createPost(
-//   createPostDto: CreatePostDto,
-//   // userId: string,
-// ): Promise<PostDocument> {
-//   // Retrieve the user from the user table
-//   // const user = await this.userModel.findById(userId).exec();
-
-//   // if (!user) {
-//   //   throw new NotFoundException('User not found and post cannot be created');
-//   // }
-
-//   const createdPost = new this.postModel({
-//     ...createPostDto,
-//     // user: user._id,
-//   });
-//   return createdPost.save();
-// }
-// }
