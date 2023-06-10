@@ -71,7 +71,7 @@ export class PostController {
       );
     } catch (error) {
       // Handle error appropriately
-      throw new Error('Failed to fetch post');
+      throw new BadRequestException('Failed to fetch post');
     }
   }
 
@@ -110,7 +110,7 @@ export class PostController {
       return new ResponseDto<null>('post successfully deleted', null, 200);
     } catch (error) {
       // Handle error appropriately
-      throw new Error('Failed to delete post');
+      throw new BadRequestException('Failed to delete post');
     }
   }
 }
