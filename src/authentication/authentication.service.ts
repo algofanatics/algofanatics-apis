@@ -27,12 +27,21 @@ export class AuthenticationService {
   async signUp(
     createUserDto: CreateUserDto,
   ): Promise<ResponseDto<UserResponseDto & AuthToken>> {
+    // Convert email and username to lowercase
+    const useremail = createUserDto.email.toLowerCase();
+    const username = createUserDto.userName.toLowerCase();
     // Check if user exists
-    const userExists = await this.usersService.findByEmail(createUserDto.email);
+    const userExists = await this.usersService.findByEmail(useremail);
     if (userExists) {
       throw new BadRequestException('User already exists');
     }
 
+    const userExistsByUsername = await this.usersService.findByUsername(
+      username,
+    );
+    if (userExistsByUsername) {
+      throw new BadRequestException('Username already exists');
+    }
     // Check if passwords match
     if (createUserDto.password !== createUserDto.confirmPassword) {
       throw new BadRequestException('Passwords do not match');
@@ -59,7 +68,8 @@ export class AuthenticationService {
   async signIn(
     data: AuthDto,
   ): Promise<ResponseDto<UserResponseDto & AuthToken>> {
-    const { emailOrUsername, password } = data;
+    const { password } = data;
+    const emailOrUsername = data.emailOrUsername.toLowerCase();
     // Check if user exists
     const user = await this.usersService.findByEmailOrUsername(emailOrUsername);
     this.logger.log(user, 'USER');
