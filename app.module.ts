@@ -9,6 +9,7 @@ import { PassportModule } from '@nestjs/passport';
 import { AccessTokenStrategy } from './src/authentication/strategies/accessToken.strategy';
 import { RefreshTokenStrategy } from './src/authentication/strategies/refreshToken.strategy';
 import { DevtoolsModule } from '@nestjs/devtools-integration';
+import { PostModule } from 'src/post/post.module';
 
 @Module({
   imports: [

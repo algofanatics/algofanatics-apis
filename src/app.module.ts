@@ -9,6 +9,7 @@ import { PassportModule } from '@nestjs/passport';
 import { AccessTokenStrategy } from './authentication/strategies/accessToken.strategy';
 import { RefreshTokenStrategy } from './authentication/strategies/refreshToken.strategy';
 import { DevtoolsModule } from '@nestjs/devtools-integration';
+import { PostModule } from './post/post.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { DevtoolsModule } from '@nestjs/devtools-integration';
     }),
     AuthenticationModule,
     UserModule,
+    PostModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   controllers: [],
