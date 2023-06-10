@@ -41,7 +41,6 @@ export class CreateUserDto {
 
   @ApiProperty({ description: 'Confirm password', required: true })
   @IsNotEmpty({ message: 'Confirm password is required' })
-  @Equals('password', { message: 'Password does not match' })
   confirmPassword: string;
 
   @ApiHideProperty()
