@@ -39,13 +39,10 @@ export class UserService {
     return this.userModel.findByIdAndDelete(id).exec();
   }
 
-  async findByEmailOrUsername(
-    username: string,
-    email: string,
-  ): Promise<UserDocument> {
+  async findByEmailOrUsername(userNameOrEmail: string): Promise<UserDocument> {
     return this.userModel
       .findOne({
-        $or: [{ email }, { username }],
+        $or: [{ email: userNameOrEmail }, { userName: userNameOrEmail }],
       })
       .exec();
   }

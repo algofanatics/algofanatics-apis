@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ForbiddenException,
+  Logger,
   Injectable,
 } from '@nestjs/common';
 import { UserService } from '../user/user.service';
@@ -16,6 +17,7 @@ import { UserResponseDto } from '../user/dto/user-respose.dto';
 
 @Injectable()
 export class AuthenticationService {
+  private readonly logger = new Logger(AuthenticationService.name);
   constructor(
     private usersService: UserService,
     private jwtService: JwtService,
@@ -29,6 +31,11 @@ export class AuthenticationService {
     const userExists = await this.usersService.findByEmail(createUserDto.email);
     if (userExists) {
       throw new BadRequestException('User already exists');
+    }
+
+    // Check if passwords match
+    if (createUserDto.password !== createUserDto.confirmPassword) {
+      throw new BadRequestException('Passwords do not match');
     }
 
     // Hash password
@@ -52,13 +59,12 @@ export class AuthenticationService {
   async signIn(
     data: AuthDto,
   ): Promise<ResponseDto<UserResponseDto & AuthToken>> {
+    const { emailOrUsername, password } = data;
     // Check if user exists
-    const user = await this.usersService.findByEmailOrUsername(
-      data.username,
-      data.email,
-    );
+    const user = await this.usersService.findByEmailOrUsername(emailOrUsername);
+    this.logger.log(user, 'USER');
     if (!user) throw new BadRequestException('User does not exist');
-    const passwordMatches = await this.verifyData(data.password, user.password);
+    const passwordMatches = await this.verifyData(password, user.password);
     console.log(passwordMatches, 'PPPPP');
     if (!passwordMatches)
       throw new BadRequestException('Password is incorrect');

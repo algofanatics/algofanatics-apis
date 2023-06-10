@@ -11,6 +11,7 @@ import {
   IsStrongPassword,
   Min,
   MinLength,
+  Validate,
   isNotEmpty,
 } from 'class-validator';
 
@@ -36,12 +37,11 @@ export class CreateUserDto {
   @ApiProperty({ description: 'Password of the user', required: true })
   @IsNotEmpty({ message: 'Password is required' })
   @MinLength(6)
-  @IsStrongPassword()
   password: string;
 
   @ApiProperty({ description: 'Confirm password', required: true })
   @IsNotEmpty({ message: 'Confirm password is required' })
-  @Equals('password', { message: 'Passwords do not match' })
+  @Equals('password', { message: 'Password does not match' })
   confirmPassword: string;
 
   @ApiHideProperty()
