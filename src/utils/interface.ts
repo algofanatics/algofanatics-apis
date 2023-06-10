@@ -1,9 +1,9 @@
 export interface UserJwtPayload {
-    sub: string;
-    email: string;
+  sub: string;
+  email: string;
 }
 
 export interface AuthToken {
-    accessToken: string,
-    refreshToken: string
+  accessToken: string;
+  refreshToken: string;
 }

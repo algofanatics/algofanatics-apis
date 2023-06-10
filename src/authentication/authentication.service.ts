@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ForbiddenException,
+  Logger,
   Injectable,
 } from '@nestjs/common';
 import { UserService } from '../user/user.service';
@@ -16,6 +17,7 @@ import { UserResponseDto } from '../user/dto/user-respose.dto';
 
 @Injectable()
 export class AuthenticationService {
+  private readonly logger = new Logger(AuthenticationService.name);
   constructor(
     private usersService: UserService,
     private jwtService: JwtService,
@@ -31,6 +33,11 @@ export class AuthenticationService {
       throw new BadRequestException('User already exists');
     }
 
+    // Check if passwords match
+    if (createUserDto.password !== createUserDto.confirmPassword) {
+      throw new BadRequestException('Passwords do not match');
+    }
+
     // Hash password
     const hash = await this.hashData(createUserDto.password);
     const newUser = await this.usersService.create({
@@ -38,10 +45,10 @@ export class AuthenticationService {
       password: hash,
     });
     console.log(newUser, 'newUser');
-    const { firstName, lastName, email } = newUser;
+    const { fullName, userName, email } = newUser;
     const tokens = await this.getTokens(newUser._id, newUser.email);
     await this.updateRefreshToken(newUser._id, tokens.refreshToken);
-    const responseData = { firstName, lastName, email, ...tokens };
+    const responseData = { fullName, userName, email, ...tokens };
     return new ResponseDto<UserResponseDto & AuthToken>(
       'sign up successful',
       responseData,
@@ -52,17 +59,19 @@ export class AuthenticationService {
   async signIn(
     data: AuthDto,
   ): Promise<ResponseDto<UserResponseDto & AuthToken>> {
+    const { emailOrUsername, password } = data;
     // Check if user exists
-    const user = await this.usersService.findByEmail(data.email);
+    const user = await this.usersService.findByEmailOrUsername(emailOrUsername);
+    this.logger.log(user, 'USER');
     if (!user) throw new BadRequestException('User does not exist');
-    const passwordMatches = await this.verifyData(data.password, user.password);
+    const passwordMatches = await this.verifyData(password, user.password);
     console.log(passwordMatches, 'PPPPP');
     if (!passwordMatches)
       throw new BadRequestException('Password is incorrect');
     const tokens = await this.getTokens(user._id, user.email);
     await this.updateRefreshToken(user._id, tokens.refreshToken);
-    const { firstName, lastName, email } = user;
-    const responseData = { firstName, lastName, email, ...tokens };
+    const { fullName, userName, email } = user;
+    const responseData = { fullName, userName, email, ...tokens };
     return new ResponseDto<UserResponseDto & AuthToken>(
       'logged in successfully',
       responseData,

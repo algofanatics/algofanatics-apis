@@ -25,10 +25,10 @@ export class User {
   id?: string;
 
   @Prop({ required: true })
-  firstName: string;
+  fullName: string;
 
   @Prop({ required: true })
-  lastName: string;
+  userName: string;
 
   @Prop({
     default:
