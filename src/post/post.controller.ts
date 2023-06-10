@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -29,7 +30,7 @@ import { PostDocument } from 'src/schema/post.schema';
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
-  @Post('createpost')
+  @Post('create')
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth() // Apply the Bearer Authentication decorator
   @ApiOkResponse({ description: 'Post successfully created' })
@@ -74,7 +75,7 @@ export class PostController {
     }
   }
 
-  @Put(':id')
+  @Put('update/:id')
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @ApiOkResponse({ description: 'Post successfully updated' })
@@ -93,11 +94,11 @@ export class PostController {
       );
     } catch (error) {
       // Handle error appropriately
-      throw new Error('Failed to update post');
+      throw new BadRequestException('Failed to update post');
     }
   }
 
-  @Delete(':id')
+  @Delete('delete/:id')
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @ApiOkResponse({ description: 'Post successfully deleted' })
