@@ -1,14 +1,18 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from '../app.module';
+import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as passport from 'passport';
 
 const logger: Logger = new Logger('Main');
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(new ValidationPipe());
+
+  // Configure Passport
+  app.use(passport.initialize());
 
   const options = new DocumentBuilder()
     .setTitle('ALGOFANATICS API')

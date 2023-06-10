@@ -9,6 +9,7 @@ import { PassportModule } from '@nestjs/passport';
 import { AccessTokenStrategy } from './authentication/strategies/accessToken.strategy';
 import { RefreshTokenStrategy } from './authentication/strategies/refreshToken.strategy';
 import { DevtoolsModule } from '@nestjs/devtools-integration';
+import { PostModule } from 'src/post/post.module';
 
 @Module({
   imports: [
@@ -21,9 +22,15 @@ import { DevtoolsModule } from '@nestjs/devtools-integration';
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('uri'),
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const logger = new Logger(AppModule.name);
+        logger.log('Connecting to MongoDB Database Successsful...');
+        return {
+          uri: configService.get<string>('uri'),
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+        };
+      },
       inject: [ConfigService],
     }),
     JwtModule.registerAsync({
@@ -35,6 +42,7 @@ import { DevtoolsModule } from '@nestjs/devtools-integration';
     }),
     AuthenticationModule,
     UserModule,
+    PostModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   controllers: [],
