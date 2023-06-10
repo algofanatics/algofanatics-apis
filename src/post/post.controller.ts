@@ -16,7 +16,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/schema/user.schema';
 import { ResponseDto } from 'src/common/base/response.dto';
-import { PostResponseDto } from 'src/user/dto/post-response';
+import { PostDocument } from 'src/schema/post.schema';
 
 @ApiTags('post')
 @Controller('post')
@@ -30,12 +30,12 @@ export class PostController {
   async createPost(
     @Body() createPostDto: CreatePostDto,
     @Request() request,
-  ): Promise<ResponseDto<PostResponseDto>> {
+  ): Promise<ResponseDto<PostDocument>> {
     const { _id: userId } = request.user;
     createPostDto.user = userId;
     try {
       const post = await this.postService.createPost(createPostDto);
-      return new ResponseDto<PostResponseDto>(
+      return new ResponseDto<PostDocument>(
         'new post successfully created',
         post,
         200,
@@ -44,4 +44,13 @@ export class PostController {
       throw new InternalServerErrorException('Failed to create post');
     }
   }
+
+  // async getPostById(id: string): Promise<ResponseDto<PostDocument>> {
+  //   return this.postModel
+  //     .findById(id)
+  //     .populate('user')
+  //     .populate('disLikes')
+  //     .populate('likes')
+  //     .exec();
+  // }
 }
