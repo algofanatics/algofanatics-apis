@@ -14,6 +14,8 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { PostService } from './post.service';
 import {
   ApiBearerAuth,
+  ApiNotFoundResponse,
+  ApiOkResponse,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
@@ -30,6 +32,9 @@ export class PostController {
   @Post('createpost')
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth() // Apply the Bearer Authentication decorator
+  @ApiOkResponse({ description: 'Post successfully created' })
+  @ApiNotFoundResponse({ description: 'Post not found' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' }) // Apply the Unauthorized Response decorator
   async createPost(
     @Body() createPostDto: CreatePostDto,
@@ -50,6 +55,11 @@ export class PostController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
+  @ApiOkResponse({ description: 'Post successfully fetched' })
+  @ApiNotFoundResponse({ description: 'Post not found' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   async fetchPost(@Param('id') id: string) {
     try {
       const post = await this.postService.findById(id);
@@ -65,6 +75,11 @@ export class PostController {
   }
 
   @Put(':id')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
+  @ApiOkResponse({ description: 'Post successfully updated' })
+  @ApiNotFoundResponse({ description: 'Post not found' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   async updatePost(
     @Param('id') id: string,
     @Body() updatePostDto: CreatePostDto,
@@ -83,6 +98,11 @@ export class PostController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
+  @ApiOkResponse({ description: 'Post successfully deleted' })
+  @ApiNotFoundResponse({ description: 'Post not found' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   async deletePost(@Param('id') id: string) {
     try {
       const post = await this.postService.deletePost(id);
