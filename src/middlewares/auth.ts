@@ -43,7 +43,7 @@ class Authenticator {
       req.user = selected as IJwtPayload;
       next();
     } catch (error: any) {
-      const response = error instanceof APIError ? error.message : 'Access Denied. Invalid Token';
+      const response = error instanceof APIError ? error.message : error || 'Access Denied. Invalid Token';
       return apiResponse(
         res,
         errorResponse(
@@ -61,7 +61,7 @@ class Authenticator {
       await AuthAPIValidations.validateLogin(req.body);
       next();
     } catch (error: any) {
-      const response = error instanceof APIError ? error.message : 'Check your email or password';
+      const response = error instanceof APIError ? error.message : error || 'Check your email or password';
       return apiResponse(
         res,
         errorResponse(
@@ -79,7 +79,7 @@ class Authenticator {
       await AuthAPIValidations.validateSignup(req.body);
       next();
     } catch (error: any) {
-      const response = error instanceof APIError ? error.message : 'invalid input';
+      const response = error instanceof APIError ? error.message : error || 'invalid input';
       return apiResponse(
         res,
         errorResponse(
@@ -97,7 +97,7 @@ class Authenticator {
       await AuthAPIValidations.validateVerifyEmail(req.params);
       next();
     } catch (error: any) {
-      const response = error instanceof APIError ? error.message : 'invalid input';
+      const response = error instanceof APIError ? error.message : error || 'invalid input';
       return apiResponse(
         res,
         errorResponse(
