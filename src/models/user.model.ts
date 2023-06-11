@@ -10,13 +10,11 @@ const UserSchema = new Schema(
     },
     firstName: {
       type: String,
-      required: [true, 'Enter your first name'],
       min: 3,
       max: 20,
     },
     lastName: {
       type: String,
-      required: [true, 'Enter your last name'],
       min: 3,
       max: 20,
     },
