@@ -1,11 +1,8 @@
-import { IUserType } from '../../source/utils/interface';
+import User from '../../models/User';
 
-type email = string;
-
-declare global {
-  namespace Express {
-    interface Request {
-      user?: IUserType;
-    }
+declare module 'express-serve-static-core' {
+  interface Request {
+    user?: keyof typeof User;
+    protocol: string;
   }
 }

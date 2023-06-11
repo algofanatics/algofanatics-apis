@@ -1,116 +1,57 @@
-import { Response, Request } from 'express';
-import moment from 'moment';
-import { parse } from 'js2xmlparser';
-import { getReasonPhrase } from 'http-status-codes';
-import bcrypt from 'bcrypt';
+import { Response } from 'express';
 import crypto from 'crypto';
-import jwt, { JwtPayload } from 'jsonwebtoken';
-import { IUserType } from '../@types/interface';
-import { env, logger } from '../configs';
-import { applicationJsonType, applicationXmlType, APIResponseType, HTTP_STATUS_CODES } from '../@types';
+import { parse } from 'js2xmlparser';
+import { getReasonPhrase, StatusCodes } from 'http-status-codes';
+import { logger } from '../config';
+import {
+  applicationJsonType,
+  applicationXmlType,
+  APIResponseType,
+} from '../@types';
 
 /**
  * Function for api tools methods
  * @function Toolbox
  */
 class Tools {
-  args: any[];
-  constructor(...args: undefined[]) {
-    this.args = args;
+  constructor() {
+
   }
-
-  createToken(email: string, expiresIn: string = '1h'): string {
-    const payload = { email };
-
-    const token = jwt.sign(payload, env.SESSION_SECRET as string, { expiresIn });
-
-    return token;
-  }
-
-  verifyToken(token: string): any {
-    return jwt.verify(token, env.SESSION_SECRET as string, (err) => {
-      if (err) {
-        console.error(err);
-        const response: string = 'Invalid Token';
-
-        return response;
-      }
-      const response = jwt.verify(token, env.SESSION_SECRET as string) as JwtPayload;
-
-      return response;
-    });
-  }
-
-  checkToken(req: Request) {
-    const {
-      headers: { authorization },
-      cookies: { token: cookieToken },
-    } = req;
-    let bearerToken = null;
-    if (authorization) {
-      bearerToken = authorization.split(' ')[1] ? authorization.split(' ')[1] : authorization;
-    }
-    return cookieToken || bearerToken || req.headers['x-access-token'] || req.headers.token || req.body.token;
-  }
-
-  async getEncryptedPassword(key: string): Promise<string> {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(key, salt);
-
-    return hashedPassword;
-  }
-
-  async getDecryptedPassword(password: string, user: IUserType): Promise<boolean> {
-    const decryptedPassword = await bcrypt.compare(password, user.password as string);
-
-    return decryptedPassword;
-  }
-
-  getRandomNumber(): string {
-    const randomNumber = crypto.randomBytes(64).toString('hex');
-
-    return randomNumber;
-  }
-  /**Always JSON.stringify data */
-  successResponse(nameOfRoute: string, responseMessage: string, data: string): APIResponseType {
-    logger(`tracking exceptions on ${nameOfRoute}`);
-    return {
-      status: 'success',
-      responseCode: '00',
-      responseMessage,
-      details: JSON.parse(data),
+  apiResponse(
+    res: Response,
+    ResponseType: number,
+    statusCode: number,
+    responseCode: string,
+    data: string | object,
+    responseMessage: string = '',
+    rootElement: string | null = ''
+  ): Response {
+    const status = ResponseType ? 'success' : 'failure';
+    const response: APIResponseType = {
+      status,
+      responseCode: ResponseType ? '00' : responseCode,
+      responseMessage: responseMessage || getReasonPhrase(statusCode),
+      details: data,
     };
-  }
-
-  errorResponse(
-    nameOfRoute: string,
-    responseMessage = 'Some error occurred while processing request.',
-    data: string
-  ): APIResponseType {
-    logger(`tracking exceptions in ${nameOfRoute}`);
-    return {
-      status: 'fail',
-      responseCode: '01',
-      responseMessage,
-      details: responseMessage === 'Internal Server' ? 'Some error occurred while processing request.' : JSON.parse(data),
-    };
-  }
-
-  apiResponse = (res: Response, data: APIResponseType, statusCode: number, rootElement = ''): Response => {
+    logger('tracing...', responseMessage || JSON.stringify(data) || 'unknown error');
     return res.format({
       json: () => {
         res.type(applicationJsonType);
-        res.status(statusCode).send(data);
+        res.status(statusCode).send(response);
       },
       xml: () => {
         res.type(applicationXmlType);
-        res.status(statusCode).send(parse(rootElement || '', data));
+        res.status(statusCode).send(parse(rootElement || 'response', response));
       },
       default: () => {
-        res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).send(getReasonPhrase(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR));
+        res.status(StatusCodes.NOT_IMPLEMENTED).send(getReasonPhrase(StatusCodes.NOT_IMPLEMENTED));
       },
     });
-  };
-}
+  }
 
-export default Tools;
+  hashFunc(payload = ''): any {
+    return crypto.createHash('sha512').update(payload).digest('hex');
+  }
+};
+
+export default new Tools();

@@ -1,18 +1,13 @@
 import { Router } from 'express';
+import user from './user';
+import auth from './auth';
 
-import { AuthenticatorMiddleware } from '../middlewares';
+import { AuthenticationsMiddleware } from '../middleware';
 
-import AuthRouter from './auth.router';
-import UserRouter from './user.router';
-import PasswordRouter from './password.router';
-import EmailListRouter from './emailList.router';
+const { authenticate } = AuthenticationsMiddleware;
+const router = Router();
 
-const api = Router(),
-  { authenticate } = AuthenticatorMiddleware;
+router.use('/auth', auth);
+router.use('/users', authenticate, user);
 
-api.use('/auth', AuthRouter);
-api.use('/list', EmailListRouter);
-api.use('/user', authenticate, UserRouter);
-api.use('/password', authenticate, PasswordRouter);
-
-export default api;
+export default router;

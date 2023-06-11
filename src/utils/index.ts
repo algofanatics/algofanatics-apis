@@ -1,9 +1,5 @@
 import Toolbox from './toolbox';
-import APIError from './apiError';
-import BaseError from './baseError';
+import ApiError from './apiError';
+import { StatusCode } from '../@types';
 
-const Tools = new Toolbox();
-
-export default Tools;
-
-export { APIError, BaseError };
+export { Toolbox, StatusCode, ApiError };

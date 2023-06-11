@@ -1,49 +1,47 @@
 {
-  "root": true,
-  "ignorePatterns": [],
-  "parser": "babel-eslint",
-  "overrides": [
-    {
-      "files": ["*.ts"],
-      "parserOptions": {
-        "project": ["tsconfig.json"],
-        "ecmaVersion": "latest",
-        "sourceType": "module",
-        "allowImportExportEverywhere": true,
-        "createDefaultProgram": true
-      },
-      "env": {
-        "es6": true
-      },
-      "extends": ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
-      "rules": {
-        "max-len": "off",
-        "no-underscore-dangle": "off",
-        "arrow-body-style": "off",
-        "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-unsafe-assignment": "off",
-        "@typescript-eslint/no-unsafe-member-access": "off",
-        "@typescript-eslint/no-unsafe-call": "off",
-        "@typescript-eslint/unbound-method": "off",
-        "@typescript-eslint/no-floating-promises": "off",
-        "@typescript-eslint/explicit-module-boundary-types": "off",
-        "@typescript-eslint/no-unused-vars": "off",
-        "@typescript-eslint/naming-convention": "off",
-        "@typescript-eslint/no-unsafe-return": "off",
-        "@typescript-eslint/no-empty-function": "off",
-        "@typescript-eslint/no-inferrable-types": "off",
-        "@typescript-eslint/restrict-template-expressions": "warn",
-        "jsdoc/newline-after-description": "off",
-        "prettier/prettier": [
-          "error",
-          {
-            "singleQuote": true,
-            "trailingComma": "es5",
-            "printWidth": 130,
-            "endOfLine": "auto"
-          }
-        ]
+  "env": {
+    "node": true,
+    "es6": true,
+    "mocha": true
+  },
+  "extends": ["airbnb-base"],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "rules": {
+    "linebreak-style": 0,
+    "one-var": 0,
+    "one-var-declaration-per-line": 0,
+    "new-cap": 0,
+    "consistent-return": 0,
+    "no-param-reassign": 0,
+    "comma-dangle": 0,
+    "curly": ["error", "multi-line"],
+    "import/no-unresolved": [2, { "commonjs": true }],
+    "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
+    "valid-jsdoc": [
+      "error",
+      {
+        "requireReturn": true,
+        "requireReturnType": true,
+        "requireParamDescription": false,
+        "requireReturnDescription": true
       }
-    }
-  ]
+    ],
+    "require-jsdoc": [
+      "error",
+      {
+        "require": {
+          "FunctionDeclaration": true,
+          "MethodDefinition": true,
+          "ClassDeclaration": true
+        }
+      }
+    ]
+  }
 }
