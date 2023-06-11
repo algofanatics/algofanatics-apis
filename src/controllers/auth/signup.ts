@@ -56,7 +56,7 @@ async function signup(req: Request, res: Response) {
     const mailResponse = await mailer(
       email,
       'Verify your account',
-      signUpHTML.replace('{{NAME}}', `${username}`).replace('{{LINK}}', redirectUrl).replace('{{DATE}}', `${moment().format('YYYY')}`),
+      signUpHTML.replace('{{username}}', `${username}`).replace('{{LINK}}', redirectUrl).replace('{{DATE}}', `${moment().format('YYYY')}`),
       username
     );
 
