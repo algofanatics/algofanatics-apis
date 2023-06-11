@@ -5,7 +5,7 @@ import { cloudinary } from '../config';
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary.v2,
   params: {
-    folder: 'pebbleScore app users',
+    folder: 'algofanatics app users',
     allowed_formats: ['jpg', 'jpeg', 'png'],
     resource_type: 'auto',
     max_file_size: 5000000, // 5 MB in bytes

@@ -1,7 +1,7 @@
 {
-  "name": "pebblescore-api",
+  "name": "algofanatics-api",
   "version": "1.0.0",
-  "description": "REST api for pebblescore",
+  "description": "REST api for algofanatics",
   "main": "server.ts",
   "scripts": {
     "lint": "eslint \"src/**/*.ts\"",

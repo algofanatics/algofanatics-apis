@@ -42,7 +42,7 @@ async function resendEmail(req: Request, res: Response) {
 
       await mailer(
         req.body.email,
-        'Verify your Pebblescore account',
+        'Verify your Algofanatics account',
         verifyHtml
           .replace(`{{NAME}}`, `${user.firstName}`)
           .replace('{{LINK}}', redirectUrl.toString())

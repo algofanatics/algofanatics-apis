@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import path from 'path';
 import fs from 'fs';
-import moment from 'moment';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import mailer from '../../utils/mailer';
@@ -15,10 +14,9 @@ const { apiResponse } =
 
 const { APP_BASE_URL } = env;
 
-
-const welcomeHTML = fs.readFileSync(path.join(__dirname, '../../templates/welcome.html'), {
-  encoding: 'utf-8',
-});
+// const welcomeHTML = fs.readFileSync(path.join(__dirname, '../../templates/welcome.html'), {
+//   encoding: 'utf-8',
+// });
 
 const signUpHTML = fs.readFileSync(path.join(__dirname, '../../templates/signup.html'), {
   encoding: 'utf-8',
@@ -43,19 +41,19 @@ async function login(req: Request, res: Response) {
       );
     }
 
-    if (user.hasLoggedIn === false && user.isActive) {
-      try {
-        await mailer(
-        req.body.email,
-        'Welcome To Algofanatics 🤗',
-        welcomeHTML.replace('{{DATE}}', `${moment().format('YYYY')}`)
-      );
-        user.hasLoggedIn = true;
-        await user.save();
-      } catch (error) {
-        req.log.warn(error);
-      }
-    }
+    // if (user.hasLoggedIn === false && user.isActive) {
+    //   try {
+    //     await mailer(
+    //     req.body.email,
+    //     'Welcome To Algofanatics 🤗',
+    //     welcomeHTML.replace('{{DATE}}', `${moment().format('YYYY')}`)
+    //   );
+    //     user.hasLoggedIn = true;
+    //     await user.save();
+    //   } catch (error) {
+    //     req.log.warn(error);
+    //   }
+    // }
 
     if (!user?.isActive) {
       if (
@@ -78,7 +76,7 @@ async function login(req: Request, res: Response) {
 
         await mailer(
           req.body.email,
-          'Verify your Pebblescore account',
+          'Verify your account',
           signUpHTML.replace('{{NAME}}', `${user.firstName}`).replace('{{LINK}}', redirectUrl)
         );
       }

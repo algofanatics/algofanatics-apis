@@ -89,7 +89,7 @@
 // // });
 
 // /*
-// Generate a password reset token for a user on pebblescore
+// Generate a password reset token for a user on algofanatics
 //  */
 // // describe("POST /users/token", () => {
 // //   test("It should return OTP and send email to user", async () => {
@@ -108,7 +108,7 @@
 // // });
 
 // /*
-// Generate a password reset token for a user on pebblescore and reset password.
+// Generate a password reset token for a user on algofanatics and reset password.
 //  */
 // // describe("POST /users/password", () => {
 // //   test("It should fetch a new password after getting a token", async () => {

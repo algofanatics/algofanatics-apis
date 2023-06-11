@@ -4,7 +4,13 @@ import { env } from '../config';
 const Mailjet = require('node-mailjet');
 const mailjet = Mailjet.apiConnect(env.MJ_APIKEY_PUBLIC, env.MJ_APIKEY_PRIVATE);
 
-export default async function sendHtml(email: string, subject = '', body = ``, username = '', text = '') {
+export default async function sendHtml(
+  email: string,
+  subject = '',
+  body = ``,
+  username = 'algofanatic',
+  text = ''
+) {
   try {
     const mailResponse = await mailjet.post('send', { version: 'v3' }).request({
       FromEmail: env.FROM_EMAIL,
