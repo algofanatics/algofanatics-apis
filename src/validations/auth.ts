@@ -45,9 +45,9 @@ class AuthValidations {
         .label('invalid or missing lastName. string should not contain spaces. use small letters.'),
       email: joi
         .string()
+        .email()
         .trim(false)
         .lowercase()
-        .regex(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
         .required()
         .label('invalid or missing email address. string should not contain spaces. use small letters.'),
       password: joi.string().min(8).max(50).required().label('invalid or missing password'),
