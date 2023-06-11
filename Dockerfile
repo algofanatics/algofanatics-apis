@@ -8,16 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies
-RUN NODE_OPTIONS="--max-old-space-size=8192" yarn
-
-# RUN yarn build
-
-# set port to 80
-
-# Expose port 80
-# EXPOSE 80
-
-ENV GENERATE_SOURCEMAP=false
+RUN yarn
 
 # start app
 CMD ["yarn", "dev"]
