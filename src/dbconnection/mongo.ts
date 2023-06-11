@@ -1,5 +1,5 @@
 import { connection, connect, disconnect } from 'mongoose';
-import env from '../configs/env';
+import { env } from '../configs';
 
 const MONGO_URL = env.MONGO_URL as string;
 

@@ -22,12 +22,7 @@ class Authenticator {
       if (!token || token === 'Bearer' || token === undefined) {
         return apiResponse(
           res,
-          errorResponse(
-            'authenticate',
-            'middlewares',
-            getReasonPhrase(HTTP_STATUS_CODES.BAD_REQUEST),
-            'Invalid or missing token'
-          ),
+          errorResponse('authenticate', getReasonPhrase(HTTP_STATUS_CODES.BAD_REQUEST), 'Invalid or missing token'),
           HTTP_STATUS_CODES.BAD_REQUEST
         );
       }
@@ -37,7 +32,7 @@ class Authenticator {
       if (tokenData === 'Invalid Token') {
         return apiResponse(
           res,
-          errorResponse('authenticate', 'middlewares', getReasonPhrase(HTTP_STATUS_CODES.BAD_REQUEST), 'Invalid Token'),
+          errorResponse('authenticate', getReasonPhrase(HTTP_STATUS_CODES.BAD_REQUEST), 'Invalid Token'),
           HTTP_STATUS_CODES.BAD_REQUEST
         );
       }
@@ -53,7 +48,6 @@ class Authenticator {
         res,
         errorResponse(
           'authenticate',
-          'controllers',
           getReasonPhrase(HTTP_STATUS_CODES.BAD_REQUEST),
           JSON.stringify(response, Object.getOwnPropertyNames(error))
         ),
@@ -72,7 +66,6 @@ class Authenticator {
         res,
         errorResponse(
           'authenticate',
-          'controllers',
           getReasonPhrase(HTTP_STATUS_CODES.BAD_REQUEST),
           JSON.stringify(response, Object.getOwnPropertyNames(error))
         ),
@@ -91,7 +84,6 @@ class Authenticator {
         res,
         errorResponse(
           'authenticate',
-          'controllers',
           getReasonPhrase(HTTP_STATUS_CODES.BAD_REQUEST),
           JSON.stringify(response, Object.getOwnPropertyNames(error))
         ),
@@ -110,7 +102,6 @@ class Authenticator {
         res,
         errorResponse(
           'authenticate',
-          'controllers',
           getReasonPhrase(HTTP_STATUS_CODES.BAD_REQUEST),
           JSON.stringify(response, Object.getOwnPropertyNames(error))
         ),

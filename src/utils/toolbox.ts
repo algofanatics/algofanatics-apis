@@ -72,11 +72,8 @@ class Tools {
     return randomNumber;
   }
   /**Always JSON.stringify data */
-  successResponse(nameOfRoute: string, nameOfLogFile: string, responseMessage: string, data: string): APIResponseType {
-    logger(`tracking exceptions on ${nameOfRoute}`, `${nameOfLogFile}/${moment().format('DD-MM-YYYY')}`).log({
-      level: 'info',
-      message: JSON.parse(data),
-    });
+  successResponse(nameOfRoute: string, responseMessage: string, data: string): APIResponseType {
+    logger(`tracking exceptions on ${nameOfRoute}`);
     return {
       status: 'success',
       responseCode: '00',
@@ -87,14 +84,10 @@ class Tools {
 
   errorResponse(
     nameOfRoute: string,
-    nameOfLogDirectory: string,
     responseMessage = 'Some error occurred while processing request.',
     data: string
   ): APIResponseType {
-    logger(`tracking exceptions in ${nameOfRoute}`, `${nameOfLogDirectory}/${moment().format('DD-MM-YYYY')}`).log({
-      level: 'error',
-      message: data,
-    });
+    logger(`tracking exceptions in ${nameOfRoute}`);
     return {
       status: 'fail',
       responseCode: '01',

@@ -2,8 +2,6 @@ import { Document } from 'mongodb';
 import { IUserType } from '../@types/interface';
 import { UserModel, EmailListModel } from '../models';
 import Tools, { BaseError } from '../utils';
-
-const { errorResponse } = Tools;
 class User {
   args: (string | undefined)[];
   constructor(...args: (string | undefined)[]) {

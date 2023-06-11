@@ -25,11 +25,10 @@ addColors(custom.colors);
 
 const myFormat = printf(({ level, message, label, timestamp, meta }) => `[${timestamp}] [${level}] [38; 5; 13m[1m =>[22m[39m ${message}`);
 
-const logger = (value: string, route: string): Logger => {
+export const logger = (value: string): Logger => {
   return createLogger({
     levels: custom.levels,
     format: combine(label({ label: value }), timestamp(), colorize({ colors: custom.colors }), json(), myFormat),
     transports: [new transports.Console()],
   });
 };
-export default logger;

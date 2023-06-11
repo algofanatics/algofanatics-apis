@@ -24,7 +24,7 @@ class Password {
       if (!user)
         return apiResponse(
           res,
-          errorResponse('send', 'controllers/message', 'This user does not exist', JSON.stringify(':-(')),
+          errorResponse('send', 'This user does not exist', JSON.stringify(':-(')),
           HTTP_STATUS_CODES.NOT_FOUND
         );
       const resetToken = await PasswordResetTokenService.find({ userId: user._id }, res);
@@ -40,7 +40,7 @@ class Password {
             await PasswordResetTokenService.remove({ userId: user._id }, res);
             return apiResponse(
               res,
-              errorResponse('send', 'controllers/message', 'some error occurred', JSON.stringify(':-(')),
+              errorResponse('send', 'some error occurred', JSON.stringify(':-(')),
               HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR
             );
           }
@@ -57,7 +57,6 @@ class Password {
             res,
             successResponse(
               'get',
-              'controllers/messages',
               getReasonPhrase(HTTP_STATUS_CODES.OK),
               JSON.stringify('token created successfully. check your email')
             ),
@@ -69,7 +68,6 @@ class Password {
             res,
             errorResponse(
               'send',
-              'controllers/message',
               'Some error occurred with the mailer',
               JSON.stringify('cannot create token at the moment please contact support team.')
             ),
@@ -90,7 +88,6 @@ class Password {
             res,
             successResponse(
               'get',
-              'controllers/messages',
               getReasonPhrase(HTTP_STATUS_CODES.OK),
               JSON.stringify('token created successfully. please check your mail')
             ),
@@ -102,7 +99,6 @@ class Password {
             res,
             errorResponse(
               'send',
-              'controllers/message',
               'Some error occurred with the mailer',
               JSON.stringify('cannot create token at the moment please contact support team.')
             ),
@@ -116,7 +112,6 @@ class Password {
         res,
         errorResponse(
           'get',
-          'controllers/messages',
           getReasonPhrase(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR),
           JSON.stringify(response, Object.getOwnPropertyNames(error))
         ),
@@ -130,11 +125,7 @@ class Password {
     try {
       const user = await UserService.find({ userId: req.query.userId as string }, res);
       if (!user)
-        return apiResponse(
-          res,
-          errorResponse('send', 'controllers/message', 'Invalid user access', JSON.stringify(':-(')),
-          HTTP_STATUS_CODES.NOT_FOUND
-        );
+        return apiResponse(res, errorResponse('send', 'Invalid user access', JSON.stringify(':-(')), HTTP_STATUS_CODES.NOT_FOUND);
       const resetToken = await PasswordResetTokenService.find(
         {
           userId: user._id,
@@ -145,14 +136,14 @@ class Password {
       if (!resetToken)
         return apiResponse(
           res,
-          errorResponse('send', 'controllers/message', 'Invalid or expired link', JSON.stringify(':-(')),
+          errorResponse('send', 'Invalid or expired link', JSON.stringify(':-(')),
           HTTP_STATUS_CODES.NOT_FOUND
         );
 
       if (password !== confirmPassword) {
         return apiResponse(
           res,
-          errorResponse('send', 'controllers/message', 'passwords do not match', JSON.stringify(':-(')),
+          errorResponse('send', 'passwords do not match', JSON.stringify(':-(')),
           HTTP_STATUS_CODES.NOT_FOUND
         );
       } else {
@@ -162,12 +153,7 @@ class Password {
         await resetToken.delete();
         return apiResponse(
           res,
-          successResponse(
-            'get',
-            'controllers/messages',
-            getReasonPhrase(HTTP_STATUS_CODES.OK),
-            JSON.stringify('password reset successful')
-          ),
+          successResponse('get', getReasonPhrase(HTTP_STATUS_CODES.OK), JSON.stringify('password reset successful')),
           HTTP_STATUS_CODES.OK
         );
       }
@@ -177,7 +163,6 @@ class Password {
         res,
         errorResponse(
           'get',
-          'controllers/messages',
           getReasonPhrase(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR),
           JSON.stringify(response, Object.getOwnPropertyNames(error))
         ),
@@ -193,25 +178,21 @@ class Password {
 
       const user = await UserService.find({ userId }, res);
       if (!user)
-        return apiResponse(
-          res,
-          errorResponse('send', 'controllers/message', 'User not found', JSON.stringify(':-(')),
-          HTTP_STATUS_CODES.NOT_FOUND
-        );
+        return apiResponse(res, errorResponse('send', 'User not found', JSON.stringify(':-(')), HTTP_STATUS_CODES.NOT_FOUND);
 
       const validPassword = await getDecryptedPassword(oldPassword, user);
 
       if (!validPassword)
         return apiResponse(
           res,
-          errorResponse('send', 'controllers/message', 'user is not authorized', JSON.stringify(':-(')),
+          errorResponse('send', 'user is not authorized', JSON.stringify(':-(')),
           HTTP_STATUS_CODES.NOT_FOUND
         );
 
       if (oldPassword !== newPassword)
         return apiResponse(
           res,
-          errorResponse('send', 'controllers/message', 'Passwords do not match', JSON.stringify(':-(')),
+          errorResponse('send', 'Passwords do not match', JSON.stringify(':-(')),
           HTTP_STATUS_CODES.NOT_FOUND
         );
       const hashedPassword = await getEncryptedPassword(newPassword);
@@ -219,12 +200,7 @@ class Password {
       await user.save();
       return apiResponse(
         res,
-        successResponse(
-          'get',
-          'controllers/messages',
-          getReasonPhrase(HTTP_STATUS_CODES.OK),
-          JSON.stringify('user password changed successfully')
-        ),
+        successResponse('get', getReasonPhrase(HTTP_STATUS_CODES.OK), JSON.stringify('user password changed successfully')),
         HTTP_STATUS_CODES.OK
       );
     } catch (error) {
@@ -233,7 +209,6 @@ class Password {
         res,
         errorResponse(
           'get',
-          'controllers/messages',
           getReasonPhrase(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR),
           JSON.stringify(response, Object.getOwnPropertyNames(error))
         ),

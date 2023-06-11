@@ -1,6 +1,5 @@
 import { UserService } from '../services';
 import { Request, Response } from 'express';
-import { v4 as uuidv4 } from 'uuid';
 
 import Tools, { APIError } from '../utils';
 import { HTTP_STATUS_CODES } from '../@types';
@@ -9,7 +8,7 @@ import { getReasonPhrase } from 'http-status-codes';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { sendConfirmationMail } = require('../mailer/sendConfirmationMail');
 
-const { getEncryptedPassword, getDecryptedPassword, errorResponse, successResponse, apiResponse, createToken } = Tools;
+const { getEncryptedPassword, getDecryptedPassword, errorResponse, successResponse, apiResponse, createToken, getRandomNumber } = Tools;
 
 class Auth {
   args: (string | undefined)[];
@@ -26,7 +25,7 @@ class Auth {
       if (user)
         return apiResponse(
           res,
-          errorResponse('send', 'controllers/message', 'Email already exists', JSON.stringify(':-(')),
+          errorResponse('send', 'Email already exists', JSON.stringify(':-(')),
           HTTP_STATUS_CODES.BAD_REQUEST
         );
 
@@ -35,12 +34,12 @@ class Auth {
       if (userName)
         return apiResponse(
           res,
-          errorResponse('send', 'controllers/message', 'username already exists', JSON.stringify(':-(')),
+          errorResponse('send', 'username already exists', JSON.stringify(':-(')),
           HTTP_STATUS_CODES.BAD_REQUEST
         );
 
       const hashedPassword = await getEncryptedPassword(password),
-        code: string = uuidv4();
+        code: string = getRandomNumber();
 
       const newUser = await UserService.create(
         {
@@ -50,7 +49,7 @@ class Auth {
           email,
           password: hashedPassword,
           status: 'pending',
-          confirmationCode: `weeja-${code}`,
+          confirmationCode: code,
         },
         res
       );
@@ -60,7 +59,7 @@ class Auth {
           await UserService.remove({ email: req.body.email }, res);
           return apiResponse(
             res,
-            errorResponse('send', 'controllers/message', 'Some error occurred', JSON.stringify(':-(')),
+            errorResponse('send', 'Some error occurred', JSON.stringify(':-(')),
             HTTP_STATUS_CODES.NOT_FOUND
           );
         }
@@ -76,7 +75,6 @@ class Auth {
             res,
             successResponse(
               'get',
-              'controllers/messages',
               getReasonPhrase(HTTP_STATUS_CODES.OK),
               JSON.stringify('user created successfully. please check your email to verify your account')
             ),
@@ -88,7 +86,6 @@ class Auth {
             res,
             errorResponse(
               'addEmail',
-              'controllers/user',
               getReasonPhrase(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR),
               JSON.stringify(response, Object.getOwnPropertyNames(error))
             ),
@@ -103,7 +100,6 @@ class Auth {
         res,
         errorResponse(
           'addEmail',
-          'controllers/user',
           getReasonPhrase(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR),
           JSON.stringify(response, Object.getOwnPropertyNames(error))
         ),
@@ -120,7 +116,7 @@ class Auth {
       if (!user)
         return apiResponse(
           res,
-          errorResponse('send', 'controllers/message', 'user not found', JSON.stringify(':-(')),
+          errorResponse('send', 'user not found', JSON.stringify(':-(')),
           HTTP_STATUS_CODES.NOT_FOUND
         );
 
@@ -130,7 +126,7 @@ class Auth {
       if (!validPassword)
         return apiResponse(
           res,
-          errorResponse('send', 'controllers/message', 'user is not authorized', JSON.stringify(':-(')),
+          errorResponse('send', 'user is not authorized', JSON.stringify(':-(')),
           HTTP_STATUS_CODES.UNAUTHORIZED
         );
 
@@ -140,7 +136,7 @@ class Auth {
 
       return apiResponse(
         res,
-        successResponse('get', 'controllers/messages', getReasonPhrase(HTTP_STATUS_CODES.OK), JSON.stringify('login successful')),
+        successResponse('get', getReasonPhrase(HTTP_STATUS_CODES.OK), JSON.stringify('login successful')),
         HTTP_STATUS_CODES.OK
       );
     } catch (error: any) {
@@ -149,7 +145,6 @@ class Auth {
         res,
         errorResponse(
           'addEmail',
-          'controllers/user',
           getReasonPhrase(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR),
           JSON.stringify(response, Object.getOwnPropertyNames(error))
         ),
@@ -167,13 +162,13 @@ class Auth {
       if (!user)
         return apiResponse(
           res,
-          errorResponse('send', 'controllers/message', 'code is not valid', JSON.stringify(':-(')),
+          errorResponse('send', 'code is not valid', JSON.stringify(':-(')),
           HTTP_STATUS_CODES.NOT_FOUND
         );
       if (user.status === 'active')
         return apiResponse(
           res,
-          errorResponse('send', 'controllers/message', 'user is already verified', JSON.stringify(':-(')),
+          errorResponse('send', 'user is already verified', JSON.stringify(':-(')),
           HTTP_STATUS_CODES.NOT_FOUND
         );
 
@@ -184,7 +179,6 @@ class Auth {
         res,
         successResponse(
           'get',
-          'controllers/messages',
           getReasonPhrase(HTTP_STATUS_CODES.OK),
           JSON.stringify('account confirmed')
         ),
@@ -196,7 +190,6 @@ class Auth {
         res,
         errorResponse(
           'addEmail',
-          'controllers/user',
           getReasonPhrase(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR),
           JSON.stringify(response, Object.getOwnPropertyNames(error))
         ),

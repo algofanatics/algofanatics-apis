@@ -24,7 +24,6 @@ class User {
         res,
         errorResponse(
           'user',
-          'controllers',
           getReasonPhrase(HTTP_STATUS_CODES.BAD_REQUEST),
           JSON.stringify(response, Object.getOwnPropertyNames(error))
         ),
@@ -43,7 +42,6 @@ class User {
         res,
         errorResponse(
           'user',
-          'controllers',
           getReasonPhrase(HTTP_STATUS_CODES.BAD_REQUEST),
           JSON.stringify(response, Object.getOwnPropertyNames(error))
         ),
