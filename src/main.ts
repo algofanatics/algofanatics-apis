@@ -20,7 +20,14 @@ async function bootstrap() {
       'The Algofanatics API provides access to blog posts and personal portfolios of developers, offering resources and guidance for young engineers to excel in their careers.',
     )
     .setVersion('1.0')
-    .addBearerAuth() // Enable JWT authentication
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+      'access-token',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, options);

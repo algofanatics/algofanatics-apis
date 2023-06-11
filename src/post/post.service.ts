@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Post, PostDocument } from 'src/schema/post.schema';
 import { User, UserDocument } from 'src/schema/user.schema';
@@ -20,13 +20,8 @@ export class PostService {
     return createdPost.save();
   }
 
-  async findById(id: string): Promise<PostDocument> {
-    return this.postModel
-      .findById(id)
-      .populate('user')
-      .populate('disLikes')
-      .populate('likes')
-      .exec();
+  async findById(id: ObjectId): Promise<PostDocument> {
+    return this.postModel.findById(id);
   }
 
   async updatePost(

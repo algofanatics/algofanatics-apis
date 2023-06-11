@@ -17,6 +17,7 @@ import {
   ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiOperation,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
@@ -24,6 +25,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/schema/user.schema';
 import { ResponseDto } from 'src/common/base/response.dto';
 import { PostDocument } from 'src/schema/post.schema';
+import { ObjectId } from 'mongoose';
 
 @ApiTags('post')
 @Controller('post')
@@ -32,11 +34,7 @@ export class PostController {
 
   @Post('create')
   @UseGuards(AuthGuard('jwt'))
-  @ApiBearerAuth() // Apply the Bearer Authentication decorator
-  @ApiOkResponse({ description: 'Post successfully created' })
-  @ApiNotFoundResponse({ description: 'Post not found' })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized' }) // Apply the Unauthorized Response decorator
+  @ApiBearerAuth()
   async createPost(
     @Body() createPostDto: CreatePostDto,
     @Request() request,
@@ -58,12 +56,14 @@ export class PostController {
   @Get(':id')
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
-  @ApiOkResponse({ description: 'Post successfully fetched' })
-  @ApiNotFoundResponse({ description: 'Post not found' })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
-  async fetchPost(@Param('id') id: string) {
+  async fetchPost(@Param('id') id: ObjectId) {
     try {
       const post = await this.postService.findById(id);
+
+      // Update number of views
+      post.numViews += 1;
+      await post.save();
+
       return new ResponseDto<PostDocument>(
         'post successfully fetched',
         post,
@@ -78,9 +78,6 @@ export class PostController {
   @Put('update/:id')
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
-  @ApiOkResponse({ description: 'Post successfully updated' })
-  @ApiNotFoundResponse({ description: 'Post not found' })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   async updatePost(
     @Param('id') id: string,
     @Body() updatePostDto: CreatePostDto,
@@ -101,9 +98,6 @@ export class PostController {
   @Delete('delete/:id')
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
-  @ApiOkResponse({ description: 'Post successfully deleted' })
-  @ApiNotFoundResponse({ description: 'Post not found' })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   async deletePost(@Param('id') id: string) {
     try {
       const post = await this.postService.deletePost(id);
