@@ -73,13 +73,7 @@ app.use('/v1.0', routes);
 
 //greet
 app.get('/', (req: Request, res: Response) => {
-  res.send(
-    `${
-      process.env.environment === 'production'
-        ? 'Welcome to algofanatics production environment'
-        : 'Welcome to algofanatics staging environment'
-    }`
-  );
+  res.redirect(env.POSTMAN_URL as string);
 });
 
 app.all('/*', (req: Request, res: Response, next) => {
