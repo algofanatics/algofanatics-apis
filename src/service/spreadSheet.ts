@@ -36,7 +36,7 @@ class SpreadsheetService {
         item.email,
         item.phoneNumber,
         item.dob,
-        item.bvn
+        item.bvn,
       ]);
 
       // Populate the Google Sheets spreadsheet with data
@@ -55,7 +55,7 @@ class SpreadsheetService {
       await this.sheets.spreadsheets.values.update(params);
     } catch (error) {
       throw new ApiError(
-        'core mobile api',
+        'algofanatics api',
         error as string,
         'getActiveReports',
         StatusCode.INTERNAL_SERVER_ERROR

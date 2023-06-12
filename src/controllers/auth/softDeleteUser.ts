@@ -44,7 +44,7 @@ async function softDeleteUser(req: Request, res: Response) {
       ResponseType.SUCCESS,
       StatusCode.OK,
       ResponseCode.SUCCESS,
-      { },
+      {},
       deactivate ? 'This account will be deleted in 30days.' : 'This account is restored.'
     );
   } catch (error) {

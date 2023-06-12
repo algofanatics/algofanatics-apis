@@ -9,16 +9,18 @@ const { apiResponse } = Toolbox;
 async function getUser(req: Request, res: Response) {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-        return apiResponse(
-          res,
-          ResponseType.FAILURE,
-          StatusCode.BAD_REQUEST,
-          ResponseCode.FAILURE,
-          {},
-          'invalid user id'
-        );
+      return apiResponse(
+        res,
+        ResponseType.FAILURE,
+        StatusCode.BAD_REQUEST,
+        ResponseCode.FAILURE,
+        {},
+        'invalid user id'
+      );
     }
-      const userDetails: any = await userService.getUserById(req.params.id);
+    const userDetails: any = await userService.getUserById(req.params.id);
+
+    console.log(userDetails)
 
     if (!userDetails) {
       return apiResponse(
@@ -38,6 +40,7 @@ async function getUser(req: Request, res: Response) {
       userDetails as object
     );
   } catch (error: any) {
+    console.log(error)
     return apiResponse(
       res,
       ResponseType.FAILURE,

@@ -30,6 +30,7 @@ async function resendEmail(req: Request, res: Response) {
         'User not found.'
       );
     }
+    console.log(user.isActive);
     if (!user?.isActive) {
       user.expiresIn = new Date(new Date().setDate(new Date().getDate() + 7));
       await user.save();
@@ -47,14 +48,22 @@ async function resendEmail(req: Request, res: Response) {
           .replace(`{{NAME}}`, `${user.firstName}`)
           .replace('{{LINK}}', redirectUrl.toString())
       );
+      return apiResponse(
+        res,
+        ResponseType.SUCCESS,
+        StatusCode.OK,
+        ResponseCode.SUCCESS,
+        {},
+        'Email sent.'
+      );
     }
     return apiResponse(
       res,
-      ResponseType.SUCCESS,
-      StatusCode.OK,
-      ResponseCode.SUCCESS,
+      ResponseType.FAILURE,
+      StatusCode.ALREADY_EXISTS,
+      ResponseCode.FAILURE,
       {},
-      'Email sent.'
+      'This user is already verified.'
     );
   } catch (error) {
     return apiResponse(

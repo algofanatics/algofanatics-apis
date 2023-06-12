@@ -9,8 +9,7 @@ import { env } from '../../config';
 import { ResponseCode, ResponseType, StatusCode } from '../../@types';
 import { Toolbox } from '../../utils';
 
-const { apiResponse } =
-  Toolbox;
+const { apiResponse } = Toolbox;
 
 const { APP_BASE_URL } = env;
 
@@ -24,11 +23,9 @@ const signUpHTML = fs.readFileSync(path.join(__dirname, '../../templates/signup.
 
 async function login(req: Request, res: Response) {
   try {
-    let user =
-      await User.findOne({
-        email: req.body.email,
-      })
-
+    let user = await User.findOne({
+      email: req.body.email,
+    });
 
     if (!user || !bcrypt.compareSync(String(req.body.password), user.password as string)) {
       return apiResponse(
@@ -95,7 +92,7 @@ async function login(req: Request, res: Response) {
       expiresIn: '30d',
     });
     const userJSON = user.toObject();
-    const { password, _id, ...others } = userJSON;;
+    const { password, _id, ...others } = userJSON;
 
     return apiResponse(res, ResponseType.SUCCESS, StatusCode.OK, ResponseCode.SUCCESS, {
       ...others,

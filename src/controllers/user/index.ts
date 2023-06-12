@@ -1,10 +1,8 @@
-import referral from './referral';
-import resetPin from './resetPin';
+import resetPassword from './resetPassword';
 import upload from './upload';
 
 const UserController = {
-  referral,
-  resetPin,
+  resetPassword,
   upload,
 };
 

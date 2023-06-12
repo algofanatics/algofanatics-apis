@@ -3,20 +3,14 @@ import crypto from 'crypto';
 import { parse } from 'js2xmlparser';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 import { logger } from '../config';
-import {
-  applicationJsonType,
-  applicationXmlType,
-  APIResponseType,
-} from '../@types';
+import { applicationJsonType, applicationXmlType, APIResponseType } from '../@types';
 
 /**
  * Function for api tools methods
  * @function Toolbox
  */
 class Tools {
-  constructor() {
-
-  }
+  constructor() {}
   apiResponse(
     res: Response,
     ResponseType: number,
@@ -52,6 +46,6 @@ class Tools {
   hashFunc(payload = ''): any {
     return crypto.createHash('sha512').update(payload).digest('hex');
   }
-};
+}
 
 export default new Tools();

@@ -12,7 +12,7 @@ class OAuthService {
     this.oAuth2Client = new OAuth2Client(
       '276924515417-u0o039opk6thtvibqql2sg00hrestrb1.apps.googleusercontent.com',
       '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',
-        'http://localhost:5000/v1.0/api/reports/sheet'
+      'http://localhost:5000/v1.0/api/reports/sheet'
     );
   }
 

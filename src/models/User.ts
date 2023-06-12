@@ -63,5 +63,4 @@ const UserSchema = new mongoose.Schema(
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true }
 );
 
-
 export default mongoose.model('User', UserSchema);

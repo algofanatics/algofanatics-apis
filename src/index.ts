@@ -42,31 +42,31 @@ if (!production) {
   app.use(errorhandler());
 }
 
-  // // Update the spreadsheet daily at 12:00 AM
-  // cron.schedule('0 0 * * *', async () => {
-  //   try {
-  //     await spreadsheetService.createAndPopulateSpreadsheet();
-  //     console.log('Spreadsheet updated successfully.');
-  //   } catch (error) {
-  //     console.error('Failed to update the spreadsheet:', error);
-  //   }
-  // });
+// // Update the spreadsheet daily at 12:00 AM
+// cron.schedule('0 0 * * *', async () => {
+//   try {
+//     await spreadsheetService.createAndPopulateSpreadsheet();
+//     console.log('Spreadsheet updated successfully.');
+//   } catch (error) {
+//     console.error('Failed to update the spreadsheet:', error);
+//   }
+// });
 
-  // run the cron every 5 seconds
-  // cron.schedule('*/5 * * * * *', async () => {
-  //   try {
-  //     // await spreadsheetService.createAndPopulateSpreadsheet();
-  //     const usersWithReport = await userService.getUsersWithActiveReports();
-  //     const users = await userService.getAllUsers();
+// run the cron every 5 seconds
+// cron.schedule('*/5 * * * * *', async () => {
+//   try {
+//     // await spreadsheetService.createAndPopulateSpreadsheet();
+//     const usersWithReport = await userService.getUsersWithActiveReports();
+//     const users = await userService.getAllUsers();
 
-  //     console.log('users with report', usersWithReport.length);
-  //     console.log('users', users.length);
-  //     console.log('users without report', users.length - usersWithReport.length);
-  //     console.log('Spreadsheet updated successfully.');
-  //   } catch (error) {
-  //     console.error('Failed to update the spreadsheet:', error);
-  //   }
-  // });
+//     console.log('users with report', usersWithReport.length);
+//     console.log('users', users.length);
+//     console.log('users without report', users.length - usersWithReport.length);
+//     console.log('Spreadsheet updated successfully.');
+//   } catch (error) {
+//     console.error('Failed to update the spreadsheet:', error);
+//   }
+// });
 
 app.use(express.static('assets'));
 app.use('/v1.0', routes);

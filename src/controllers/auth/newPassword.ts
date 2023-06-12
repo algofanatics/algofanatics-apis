@@ -8,11 +8,11 @@ const { apiResponse } = Toolbox;
 
 async function newPassword(req: Request, res: Response) {
   try {
-    const { pin, tempToken, email } = req.body;
-    if (!pin) throw new Error('Please include pin');
+    const { password, tempToken, email } = req.body;
+    if (!password) return apiResponse(res, ResponseType.FAILURE, StatusCode.BAD_REQUEST, ResponseCode.FAILURE, {}, 'password is required');
     const user = await User.findOneAndUpdate(
       { email, tempToken },
-      { pin: bcrypt.hashSync(String(pin), 10) },
+      { password: bcrypt.hashSync(String(password), 10) },
       { new: true, runValidators: true }
     );
     if (!user)

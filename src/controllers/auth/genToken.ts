@@ -41,7 +41,9 @@ async function genToken(req: Request, res: Response) {
         .replace(`{{TOKEN}}`, `${tempToken}`)
         .replace('{{TITLE}}', 'This is your password reset token')
     );
-    return apiResponse(res, ResponseType.SUCCESS, StatusCode.OK, ResponseCode.SUCCESS, { tempToken });
+    return apiResponse(res, ResponseType.SUCCESS, StatusCode.OK, ResponseCode.SUCCESS, {
+      tempToken,
+    });
   } catch (error: any) {
     return apiResponse(
       res,

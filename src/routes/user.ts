@@ -4,12 +4,9 @@ import { UserController } from '../controllers';
 
 const router = express.Router();
 
-const {
-  upload,
-  resetPin,
-} = UserController;
+const { upload, resetPassword } = UserController;
 
-router.post('/reset', resetPin);
+router.post('/reset', resetPassword);
 router.post('/upload', Uploader.single('image'), upload);
 
 export default router;
