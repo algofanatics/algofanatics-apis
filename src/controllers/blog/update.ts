@@ -32,30 +32,21 @@ async function update(req: Request, res: Response) {
       );
     }
 
-    if (author !== blog.author) {
+    if (author.toString() !== blog.author.toString()) {
       return apiResponse(
         res,
         ResponseType.FAILURE,
         StatusCode.BAD_REQUEST,
         ResponseCode.FAILURE,
         {},
-        'You are not authorized to perform this action.'
+        'You are not the author.'
       );
     }
-
-    let newTags = [];
-    let oldTags = blog.tags
-
-    if (tags.length) {
-      newTags = tags.filter((tag: string) => !oldTags.includes(tag));
-    };
-
-    console.log(newTags)
 
     await blogService.updateBlog(blogId, {
       title: title || blog.title,
       content: content || blog.content,
-      tags: newTags,
+      tags: tags.length ? tags : blog.tags,
     } as BlogUpdateType)
 
     return apiResponse(

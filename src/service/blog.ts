@@ -18,10 +18,26 @@ class BlogService {
     }
   }
 
-  async getBlogById(BlogId: string) {
+  async getBlogById(blogId: string) {
     try {
       const blog = await Blog.findById({
-        $or: [{ _id: BlogId }, { author: BlogId }],
+        _id: blogId,
+      });
+      return blog;
+    } catch (error) {
+      throw new ApiError(
+        'algofanatics api',
+        error as string,
+        'getBlogById',
+        StatusCode.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
+  async getBlogsByAuthor(author: string) {
+    try {
+      const blog = await Blog.find({
+        author,
       });
       return blog;
     } catch (error) {
@@ -64,10 +80,9 @@ class BlogService {
     }
   };
 
-  getBlogByTag = async (tag: string) => {
+  getBlogsByTag = async (tag: string) => {
     try {
-      const blog = await Blog.find({ tags: tag });
-      return blog;
+      // find all blogs which have the tag. tag is saved as an array of strings
     } catch (error) {
       throw new ApiError(
         'algofanatics api',

@@ -20,8 +20,6 @@ async function getUser(req: Request, res: Response) {
     }
     const userDetails: any = await userService.getUserById(req.params.id);
 
-    console.log(userDetails)
-
     if (!userDetails) {
       return apiResponse(
         res,
@@ -40,7 +38,6 @@ async function getUser(req: Request, res: Response) {
       userDetails as object
     );
   } catch (error: any) {
-    console.log(error)
     return apiResponse(
       res,
       ResponseType.FAILURE,

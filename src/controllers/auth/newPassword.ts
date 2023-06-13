@@ -22,8 +22,10 @@ async function newPassword(req: Request, res: Response) {
         StatusCode.NOT_FOUND,
         ResponseCode.FAILURE,
         {},
-        'user not found'
+        'user with token not found. try to create a token first'
       );
+    
+      await User.findOneAndUpdate({ email }, { tempToken: '' }, { new: true, runValidators: true });
 
     return apiResponse(
       res,
