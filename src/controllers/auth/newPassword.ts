@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import User from '../../models/User';
 import { ResponseCode, ResponseType, StatusCode } from '../../@types';
-import { ApiError, Toolbox } from '../../utils';
+import { Toolbox } from '../../utils';
 
 const { apiResponse } = Toolbox;
 
@@ -25,7 +25,7 @@ async function newPassword(req: Request, res: Response) {
         'user with token not found. try to create a token first'
       );
     
-      await User.findOneAndUpdate({ email }, { tempToken: '' }, { new: true, runValidators: true });
+    await User.findOneAndUpdate({ email }, { tempToken: '' }, { new: true, runValidators: true });
 
     return apiResponse(
       res,
