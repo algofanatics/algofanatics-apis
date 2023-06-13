@@ -53,6 +53,7 @@ async function signup(req: Request, res: Response) {
     });
 
     logger('redirect url', redirectUrl);
+    
     const mailResponse = await mailer(
       email,
       'Verify your account',
@@ -63,7 +64,7 @@ async function signup(req: Request, res: Response) {
       username
     );
 
-    console.log('mail response', mailResponse);
+    logger('mail response', mailResponse);
 
     return apiResponse(
       res,

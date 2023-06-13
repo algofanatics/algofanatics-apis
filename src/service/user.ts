@@ -35,7 +35,6 @@ class UserService {
   async getUserByEmail(email: string) {
     try {
       const user = User.findOne({ email });
-      if (!user) throw new Error('User not found');
       return user;
     } catch (error) {
       throw new ApiError(
@@ -52,7 +51,6 @@ class UserService {
       const user = await User.findByIdAndUpdate(userId, userData, {
         new: true,
       });
-      if (!user) throw new Error('User not found');
       return user;
     } catch (error) {
       throw new ApiError(
@@ -67,7 +65,6 @@ class UserService {
   deleteUser = async (userId: string) => {
     try {
       const user = await User.findByIdAndDelete(userId);
-      if (!user) throw new Error('User not found');
       return user;
     } catch (error) {
       throw new ApiError(

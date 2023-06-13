@@ -4,9 +4,10 @@ import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import mailer from '../../utils/mailer';
 import User from '../../models/User';
-import { ResponseCode, ResponseType, StatusCode } from '../../@types';
+import { ResponseCode, ResponseType, StatusCode, UserInterface } from '../../@types';
 import { env } from '../../config';
 import { Toolbox } from '../../utils';
+import { userService } from '../../service';
 
 const { apiResponse } = Toolbox;
 const { APP_BASE_URL } = env;
@@ -17,9 +18,7 @@ const verifyHtml = fs.readFileSync(path.join(__dirname, '/../../templates/signup
 
 async function resendEmail(req: Request, res: Response) {
   try {
-    let user = await User.findOne({
-      email: req.body.email,
-    });
+    let user = (await userService.getUserByEmail(req.body.email));
     if (!user) {
       return apiResponse(
         res,
@@ -30,7 +29,6 @@ async function resendEmail(req: Request, res: Response) {
         'User not found.'
       );
     }
-    console.log(user.isActive);
     if (!user?.isActive) {
       user.expiresIn = new Date(new Date().setDate(new Date().getDate() + 7));
       await user.save();

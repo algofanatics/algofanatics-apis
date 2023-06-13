@@ -23,6 +23,16 @@ async function upload(req: Request, res: Response) {
 
     const updatedUser = await userService.updateUser(appUser._id, { image } as UserInterface);
 
+    if (!updatedUser)
+      return apiResponse(
+        res,
+        ResponseType.FAILURE,
+        StatusCode.BAD_REQUEST,
+        ResponseCode.FAILURE,
+        {},
+        'User not found. Please try again.'
+      );
+
     return apiResponse(
       res,
       ResponseType.SUCCESS,

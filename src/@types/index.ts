@@ -1,5 +1,7 @@
 export * from './user';
 
+export * from './blog';
+
 export const applicationJsonType = 'application/json';
 
 export const applicationXmlType = 'application/xml';

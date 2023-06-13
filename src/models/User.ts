@@ -11,6 +11,10 @@ const UserSchema = new mongoose.Schema(
       default: false,
       required: true,
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
     username: {
       type: String,
       required: [true, 'Please include username'],
