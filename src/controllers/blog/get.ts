@@ -12,11 +12,8 @@ const { apiResponse } = Toolbox;
 async function get(req: Request, res: Response) {
   try {
     const { blogId, author } = req.query;
-    console.log(blogId, author);
 
     const appUser = req.user as any;
-
-    console.log(author !== appUser._id.toString());
 
     if (author) {
       if (author !== appUser._id.toString()) {
@@ -32,7 +29,6 @@ async function get(req: Request, res: Response) {
     }
 
     if (blogId) {
-      console.log('here');
       const blog = await blogService.getBlogById(blogId as string);
 
       if (!blog) {
