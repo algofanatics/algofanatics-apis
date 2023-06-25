@@ -6,6 +6,7 @@ import signup from './signup';
 import verifyToken from './verifyToken';
 import softDeleteUser from './softDeleteUser';
 import getUser from './getUser';
+import getBlogs from './getBlogs';
 
 const AuthController = {
   genToken,
@@ -16,6 +17,7 @@ const AuthController = {
   verifyToken,
   softDeleteUser,
   getUser,
+  getBlogs
 };
 
 export default AuthController;
