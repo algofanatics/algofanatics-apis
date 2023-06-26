@@ -25,6 +25,7 @@ class BlogService {
       });
       return blog;
     } catch (error) {
+      console.log(error);
       throw new ApiError(
         'algofanatics api',
         error as string,

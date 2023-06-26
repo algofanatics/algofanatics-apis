@@ -7,47 +7,23 @@ import {
 } from '../../@types';
 import { Toolbox } from '../../utils';
 import { blogService } from '../../service';
+import mongoose from 'mongoose';
 
 const { apiResponse } = Toolbox;
 
 async function update(req: Request, res: Response) {
   try {
-    const appUser = req.user as any;
-
     const { title, content, tags } = req.body;
     const { blogId } = req.params;
 
-    const author = appUser._id;
-
     const blog = await blogService.getBlogById(blogId);
-
-    if (!blog) {
-      return apiResponse(
-        res,
-        ResponseType.FAILURE,
-        StatusCode.BAD_REQUEST,
-        ResponseCode.FAILURE,
-        {},
-        'Blog not found. Please try again.'
-      );
-    }
-
-    if (author.toString() !== blog.author.toString()) {
-      return apiResponse(
-        res,
-        ResponseType.FAILURE,
-        StatusCode.BAD_REQUEST,
-        ResponseCode.FAILURE,
-        {},
-        'You are not the author.'
-      );
-    }
+    // middleware already handles invalid and non-existent blogId
 
     await blogService.updateBlog(blogId, {
-      title: title || blog.title,
-      content: content || blog.content,
-      tags: tags.length ? tags : blog.tags,
-    } as BlogUpdateType)
+      title: title || blog!.title,
+      content: content || blog!.content,
+      tags: tags.length ? tags : blog!.tags,
+    } as BlogUpdateType);
 
     return apiResponse(
       res,

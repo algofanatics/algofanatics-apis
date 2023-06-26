@@ -7,6 +7,9 @@ export interface BlogInterface extends Document {
   tags?: string[];
   createdAt: Date;
   updatedAt: Date;
+  media?: {
+    [key: string]: string;
+  };
 }
 
 export const tagEnum = ['frontend', 'backend', 'devops', 'algorithms'];
@@ -15,4 +18,7 @@ export type BlogUpdateType = {
   title?: string;
   content?: string;
   tags?: string[];
+  media?: {
+    [key: string]: string;
+  };
 }

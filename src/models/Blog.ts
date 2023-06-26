@@ -21,6 +21,11 @@ const BlogSchema = new mongoose.Schema(
       type: tagEnum,
       default: ['algorithms'],
     },
+    // add media as an object of key value pairs,
+    media: {
+      type: Object,
+      default: {},
+    }, 
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true }
 );

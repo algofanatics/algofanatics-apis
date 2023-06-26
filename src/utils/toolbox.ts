@@ -4,6 +4,7 @@ import { parse } from 'js2xmlparser';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 import { logger } from '../config';
 import { applicationJsonType, applicationXmlType, APIResponseType } from '../@types';
+import mongoose from 'mongoose';
 
 /**
  * Function for api tools methods
@@ -45,6 +46,10 @@ class Tools {
 
   hashFunc(payload = ''): any {
     return crypto.createHash('sha512').update(payload).digest('hex');
+  }
+
+  validateMongooseId(id: string): boolean {
+     return (mongoose.Types.ObjectId.isValid(id)) 
   }
 }
 

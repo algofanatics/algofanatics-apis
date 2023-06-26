@@ -13,41 +13,16 @@ async function get(req: Request, res: Response) {
   try {
     const { blogId, author } = req.query;
 
-    const appUser = req.user as any;
-
-    if (author) {
-      if (author !== appUser._id.toString()) {
-        return apiResponse(
-          res,
-          ResponseType.FAILURE,
-          StatusCode.BAD_REQUEST,
-          ResponseCode.FAILURE,
-          {},
-          'You are not the author of this blog.'
-        );
-      }
-    }
-
     if (blogId) {
       const blog = await blogService.getBlogById(blogId as string);
-
-      if (!blog) {
-        return apiResponse(
-          res,
-          ResponseType.FAILURE,
-          StatusCode.BAD_REQUEST,
-          ResponseCode.FAILURE,
-          {},
-          'Blog not found. Please try again.'
-        );
-      }
+      // middleware already handles invalid and non-existent blogId
 
       return apiResponse(
         res,
         ResponseType.SUCCESS,
         StatusCode.OK,
         ResponseCode.SUCCESS,
-        blog,
+        blog as object,
         'Blog fetched successfully'
       );
     }
@@ -55,7 +30,7 @@ async function get(req: Request, res: Response) {
     if (author) {
       const blogs = await blogService.getBlogsByAuthor(author as string);
 
-      if (!blogs) {
+      if (!blogs.length || !blogs) {
         return apiResponse(
           res,
           ResponseType.FAILURE,
@@ -78,7 +53,7 @@ async function get(req: Request, res: Response) {
 
     const blogs = await blogService.getAllBlogs();
 
-    if (!blogs) {
+    if (!blogs || !blogs.length) {
       return apiResponse(
         res,
         ResponseType.FAILURE,
