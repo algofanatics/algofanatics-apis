@@ -11,7 +11,7 @@ const { apiResponse } = Toolbox;
 
 async function get(req: Request, res: Response) {
   try {
-    const { blogId, author } = req.query;
+    const { blogId, author, tag } = req.query;
 
     if (blogId) {
       const blog = await blogService.getBlogById(blogId as string);
@@ -28,7 +28,7 @@ async function get(req: Request, res: Response) {
     }
 
     if (author) {
-      const blogs = await blogService.getBlogsByAuthor(author as string);
+      let blogs = await blogService.getBlogsByAuthor(author as string);
 
       if (!blogs.length || !blogs) {
         return apiResponse(
@@ -41,6 +41,10 @@ async function get(req: Request, res: Response) {
         );
       }
 
+      if (tag) {
+        blogs = blogs.filter((blog) => blog.tags.includes(tag as string));
+      }
+
       return apiResponse(
         res,
         ResponseType.SUCCESS,
@@ -51,7 +55,7 @@ async function get(req: Request, res: Response) {
       );
     }
 
-    const blogs = await blogService.getAllBlogs();
+    let blogs = await blogService.getAllBlogs();
 
     if (!blogs || !blogs.length) {
       return apiResponse(
@@ -62,6 +66,10 @@ async function get(req: Request, res: Response) {
         {},
         'Blog not found. Please try again.'
       );
+    }
+
+    if (tag) {
+      blogs = blogs.filter((blog) => blog.tags.includes(tag as string));
     }
 
     return apiResponse(
