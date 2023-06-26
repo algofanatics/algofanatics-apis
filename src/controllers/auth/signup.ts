@@ -39,8 +39,10 @@ async function signup(req: Request, res: Response) {
       );
     }
 
+    //expires in 5mins
+
     const tempToken = jwt.sign({ email }, process.env.JWT_SECRET as string as string, {
-      expiresIn: '7d',
+      expiresIn: '5m',
     });
     const redirectUrl = `${APP_BASE_URL}/auth/verify?token=${tempToken}`;
 

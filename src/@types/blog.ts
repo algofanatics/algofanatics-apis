@@ -22,3 +22,9 @@ export type BlogUpdateType = {
     [key: string]: string;
   };
 }
+
+export type BlogMediaUploadType = {
+  mediaName: string;
+  blogId: string;
+  author: string;
+}

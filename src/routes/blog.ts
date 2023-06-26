@@ -5,13 +5,13 @@ import { Uploader, BlogMiddleware } from '../middleware';
 const router = express.Router();
 
 const { create, update, remove, get, upload } = BlogController;
-const { inspectBlogId } = BlogMiddleware;
+const { inspectBlogId, inspectUploadBlogMedia } = BlogMiddleware;
 
 router.post('/', create);
 router.put('/:blogId', inspectBlogId, update);
 router.delete('/:blogId', inspectBlogId, remove);
 router.get('/', inspectBlogId, get);
-router.post('/upload', inspectBlogId, Uploader.single('media'), upload);
+router.post('/upload', inspectBlogId, Uploader.single('media'), inspectUploadBlogMedia, upload);
 
 
 export default router;

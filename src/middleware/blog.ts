@@ -2,8 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import { ResponseCode, ResponseType, StatusCode } from '../@types';
 import { Toolbox } from '../utils';
 import { blogService } from '../service';
+import { blogValidations } from '../validations';
 
-const { apiResponse, validateMongooseId } = Toolbox;
+const { apiResponse, validateMongooseId, } = Toolbox;
 
 const BlogMiddleware = {
   async inspectBlogId(req: Request, res: Response, next: NextFunction) {
@@ -124,7 +125,7 @@ const BlogMiddleware = {
       }
 
       let authorIdTruthy = true;
-      
+
       if (req.body.author) {
         authorIdTruthy = validateMongooseId(req.body.author);
 
@@ -138,7 +139,7 @@ const BlogMiddleware = {
             'invalid author id'
           );
         }
-          
+
         if (req.body.author !== appUser._id.toString()) {
           return apiResponse(
             res,
@@ -162,7 +163,7 @@ const BlogMiddleware = {
             'invalid author id'
           );
         }
-          
+
         if (req.params.author !== appUser._id.toString()) {
           return apiResponse(
             res,
@@ -186,7 +187,7 @@ const BlogMiddleware = {
             'invalid author id'
           );
         }
-        
+
         if (req.query.author !== appUser._id.toString()) {
           return apiResponse(
             res,
@@ -199,6 +200,37 @@ const BlogMiddleware = {
         }
       }
 
+      next();
+    } catch (error) {
+      return apiResponse(
+        res,
+        ResponseType.FAILURE,
+        StatusCode.BAD_REQUEST,
+        ResponseCode.VALIDATION_ERROR,
+        {},
+        error as string
+      );
+    }
+  },
+  async inspectUpdateBlog(req: Request, res: Response, next: NextFunction) {
+    try {
+      await blogValidations.validateUpdateBlog(req.body);
+      next();
+    } catch (error) {
+      return apiResponse(
+        res,
+        ResponseType.FAILURE,
+        StatusCode.BAD_REQUEST,
+        ResponseCode.VALIDATION_ERROR,
+        {},
+        error as string
+      );
+    }
+  },
+  async inspectUploadBlogMedia(req: Request, res: Response, next: NextFunction) {
+    try {
+      console.log(req.body)
+      await blogValidations.validateUploadBlogMedia(req.body);
       next();
     } catch (error) {
       return apiResponse(

@@ -65,7 +65,7 @@ async function login(req: Request, res: Response) {
           { email: req.body.email },
           process.env.JWT_SECRET as string as string,
           {
-            expiresIn: '7d',
+            expiresIn: '5m',
           }
         );
 
@@ -89,7 +89,7 @@ async function login(req: Request, res: Response) {
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET as string as string, {
-      expiresIn: '30d',
+      expiresIn: '1d',
     });
     const userJSON = user.toObject();
     const { password, _id, ...others } = userJSON;

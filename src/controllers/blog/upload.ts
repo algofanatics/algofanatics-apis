@@ -8,7 +8,7 @@ const { apiResponse } = Toolbox;
 
 async function upload(req: Request, res: Response) {
   try {
-    const { blogId, author, mediaName } = req.body;
+    const { blogId, mediaName } = req.body;
 
     const blog = await blogService.getBlogById(blogId as string);
     // middleware already handles invalid and non-existent blogId

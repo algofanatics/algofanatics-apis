@@ -1,3 +1,4 @@
 import userValidations from './user';
+import blogValidations from './blog';
 
-export { userValidations };
+export { userValidations, blogValidations };
