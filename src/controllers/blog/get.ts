@@ -11,7 +11,7 @@ const { apiResponse } = Toolbox;
 
 async function get(req: Request, res: Response) {
   try {
-    const { blogId, author, tag } = req.query;
+    const { blogId, author, tag, page, limit } = req.query;
 
     if (blogId) {
       const blog = await blogService.getBlogById(blogId as string);
@@ -28,7 +28,7 @@ async function get(req: Request, res: Response) {
     }
 
     if (author) {
-      let blogs = await blogService.getBlogsByAuthor(author as string);
+      let blogs = await blogService.getBlogsByAuthor(author as string, Number(page), Number(limit));
 
       if (!blogs.length || !blogs) {
         return apiResponse(
@@ -55,7 +55,7 @@ async function get(req: Request, res: Response) {
       );
     }
 
-    let blogs = await blogService.getAllBlogs();
+    let blogs = await blogService.getAllBlogs(Number(page), Number(limit));
 
     if (!blogs || !blogs.length) {
       return apiResponse(

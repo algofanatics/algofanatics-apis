@@ -35,11 +35,11 @@ class BlogService {
     }
   }
 
-  async getBlogsByAuthor(author: string) {
+  async getBlogsByAuthor(author: string, page = 1, limit = 50) {
     try {
       const blog = await Blog.find({
         author,
-      });
+      }).skip((page - 1) * limit).limit(limit);
       return blog;
     } catch (error) {
       throw new ApiError(
@@ -81,22 +81,11 @@ class BlogService {
     }
   };
 
-  getBlogsByTag = async (tag: string) => {
+  getAllBlogs = async (page = 1, limit = 50) => {
     try {
-      // find all blogs which have the tag. tag is saved as an array of strings
-    } catch (error) {
-      throw new ApiError(
-        'algofanatics api',
-        error as string,
-        'getBlogByTag',
-        StatusCode.INTERNAL_SERVER_ERROR
-      );
-    }
-  };
-
-  getAllBlogs = async () => {
-    try {
-      const blogs = await Blog.find();
+      const blogs = await Blog.find()
+        .skip((page - 1) * limit)
+        .limit(limit);;
       return blogs;
     } catch (error) {
       throw new ApiError(
