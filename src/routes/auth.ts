@@ -1,6 +1,6 @@
 import express from 'express';
 import { AuthController } from '../controllers';
-import { UserMiddleware } from '../middleware';
+import { UserMiddleware, BlogMiddleware } from '../middleware';
 
 const router = express.Router();
 
@@ -30,6 +30,6 @@ router.post('/login/resend', inspectAuthRoutes, resendEmail);
 router.get('/verify', inspectVerifyToken, verifyToken);
 router.patch('/status', inspectToggleActivationStatus, softDeleteUser);
 router.get('/me/:id', getUser);
-router.get('/blog', getBlogs);
+router.get('/blog', BlogMiddleware.inspectBlogQuery, getBlogs);
 
 export default router;

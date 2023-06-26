@@ -28,3 +28,10 @@ export type BlogMediaUploadType = {
   blogId: string;
   author: string;
 }
+
+export type BlogQueryType = {
+  tag?: string;
+  page?: number;
+  limit?: number;
+  title?: string;
+};

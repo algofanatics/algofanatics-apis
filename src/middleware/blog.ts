@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { ResponseCode, ResponseType, StatusCode } from '../@types';
+import { ResponseCode, ResponseType, StatusCode, BlogQueryType } from '../@types';
 import { Toolbox } from '../utils';
 import { blogService } from '../service';
 import { blogValidations } from '../validations';
@@ -229,8 +229,23 @@ const BlogMiddleware = {
   },
   async inspectUploadBlogMedia(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log(req.body)
+      console.log(req.body);
       await blogValidations.validateUploadBlogMedia(req.body);
+      next();
+    } catch (error) {
+      return apiResponse(
+        res,
+        ResponseType.FAILURE,
+        StatusCode.BAD_REQUEST,
+        ResponseCode.VALIDATION_ERROR,
+        {},
+        error as string
+      );
+    }
+  },
+  async inspectBlogQuery(req: Request, res: Response, next: NextFunction) {
+    try {
+      await blogValidations.validateBlogQuery(req.query as BlogQueryType);
       next();
     } catch (error) {
       return apiResponse(
