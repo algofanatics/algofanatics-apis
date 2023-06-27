@@ -8,10 +8,10 @@ import { ResponseType, ResponseCode } from '../../@types';
 
 const { apiResponse } = Toolbox;
 
-class AuthController {
-  private authService: typeof googleOauthService;
-  constructor() {
-    this.authService = googleOauthService;
+class googleAuth {
+  private authService: googleOauthService;
+  constructor(redirectUrl: string) {
+    this.authService = new googleOauthService(redirectUrl);
   }
 
   public getAuthUrl(req: Request, res: Response): void {
@@ -104,4 +104,4 @@ class AuthController {
   }
 }
 
-export default new AuthController();
+export default googleAuth;

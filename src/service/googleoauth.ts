@@ -4,11 +4,11 @@ import { LoginTicket } from 'google-auth-library/build/src/auth/loginticket';
 class googleOauthService {
   private oAuth2Client: OAuth2Client;
 
-  constructor() {
+  constructor(redirectUri: string) {
     this.oAuth2Client = new OAuth2Client(
       '277608211651-9896h10scplos6g7j7m9h77vc3gj4bpt.apps.googleusercontent.com',
       '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',
-      'http://localhost:5000/v1.0/auth/gg/signin'
+      redirectUri
     );
   }
 
@@ -54,4 +54,4 @@ class googleOauthService {
   }
 }
 
-export default new googleOauthService();
+export default googleOauthService;
