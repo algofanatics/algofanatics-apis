@@ -9,7 +9,12 @@ const blog = {
     const schema = joi.object({
       title: joi.string().optional().allow('', null).label('invalid title'),
       content: joi.string().optional().allow('', null).label('invalid content'),
-      tags: joi.string().optional().allow('', null).label('invalid tags'),
+      tags: joi
+        .string()
+        .valid('frontend', 'backend', 'devops', 'algorithms')
+        .optional()
+        .allow('', null)
+        .label('invalid tags. check the documentation for valid tags.'),
     });
     const { error } = schema.validate(payload);
     if (error) throw error.details[0].context.label;
@@ -27,7 +32,12 @@ const blog = {
   },
   async validateBlogQuery(payload: BlogQueryType) {
     const schema = joi.object({
-      tag: joi.string().optional().allow('', null).label('invalid or missing tag'),
+      tag: joi
+        .string()
+        .optional()
+        .valid('frontend', 'backend', 'devops', 'algorithms')
+        .allow('', null)
+        .label('invalid or missing tag. check the documentation for valid tags.'),
       page: joi
         .number()
         .min(1)
