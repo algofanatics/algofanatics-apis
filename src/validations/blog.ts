@@ -32,6 +32,7 @@ const blog = {
   },
   async validateBlogQuery(payload: BlogQueryType) {
     const schema = joi.object({
+      blogId: joi.string().optional().allow('', null).label('invalid or missing blogId'),
       tag: joi
         .string()
         .optional()

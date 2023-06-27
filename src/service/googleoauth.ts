@@ -13,7 +13,7 @@ class googleOauthService {
   }
 
   public generateAuthUrl(): string {
-    const SCOPES = ['profile'];
+    const SCOPES = ['profile', 'email'];
     return this.oAuth2Client.generateAuthUrl({
       access_type: 'offline',
       scope: SCOPES,
@@ -36,6 +36,8 @@ class googleOauthService {
     if (!payload) {
       throw new Error('Invalid token payload');
     }
+
+    console.log(payload, 'payload');
 
     const email = payload?.email || '';
     const username = payload?.name || '';
