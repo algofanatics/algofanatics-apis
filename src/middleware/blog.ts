@@ -4,7 +4,7 @@ import { Toolbox } from '../utils';
 import { blogService } from '../service';
 import { blogValidations } from '../validations';
 
-const { apiResponse, validateMongooseId, } = Toolbox;
+const { apiResponse, validateMongooseId } = Toolbox;
 
 const BlogMiddleware = {
   async inspectBlogId(req: Request, res: Response, next: NextFunction) {

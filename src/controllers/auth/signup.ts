@@ -55,7 +55,7 @@ async function signup(req: Request, res: Response) {
     });
 
     logger('redirect url', redirectUrl);
-    
+
     const mailResponse = await mailer(
       email,
       'Verify your account',

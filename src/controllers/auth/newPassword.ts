@@ -9,7 +9,15 @@ const { apiResponse } = Toolbox;
 async function newPassword(req: Request, res: Response) {
   try {
     const { password, tempToken, email } = req.body;
-    if (!password) return apiResponse(res, ResponseType.FAILURE, StatusCode.BAD_REQUEST, ResponseCode.FAILURE, {}, 'password is required');
+    if (!password)
+      return apiResponse(
+        res,
+        ResponseType.FAILURE,
+        StatusCode.BAD_REQUEST,
+        ResponseCode.FAILURE,
+        {},
+        'password is required'
+      );
     const user = await User.findOneAndUpdate(
       { email, tempToken },
       { password: bcrypt.hashSync(String(password), 10) },
@@ -24,7 +32,7 @@ async function newPassword(req: Request, res: Response) {
         {},
         'user with token not found. try to create a token first'
       );
-    
+
     await User.findOneAndUpdate({ email }, { tempToken: '' }, { new: true, runValidators: true });
 
     return apiResponse(

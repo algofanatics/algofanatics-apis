@@ -18,7 +18,7 @@ const verifyHtml = fs.readFileSync(path.join(__dirname, '/../../templates/signup
 
 async function resendEmail(req: Request, res: Response) {
   try {
-    let user = (await userService.getUserByEmail(req.body.email));
+    let user = await userService.getUserByEmail(req.body.email);
     if (!user) {
       return apiResponse(
         res,

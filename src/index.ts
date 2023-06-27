@@ -1,19 +1,14 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-// import cron from 'node-cron';
 import errorhandler from 'errorhandler';
 import morgan from 'morgan';
 import { rateLimit } from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 import { env } from './config';
 import routes from './routes';
-// import { SpreadsheetService, userService, OAuthService } from './service';
 
 const production = env.NODE_ENV === 'LIVE';
-
-// const oauthService = new OAuthService();
-// const spreadsheetService = new SpreadsheetService(oauthService.getAuthClient(), userService);
 
 const app = express();
 
@@ -42,32 +37,6 @@ if (!production) {
   app.use(errorhandler());
 }
 
-// // Update the spreadsheet daily at 12:00 AM
-// cron.schedule('0 0 * * *', async () => {
-//   try {
-//     await spreadsheetService.createAndPopulateSpreadsheet();
-//     console.log('Spreadsheet updated successfully.');
-//   } catch (error) {
-//     console.error('Failed to update the spreadsheet:', error);
-//   }
-// });
-
-// run the cron every 5 seconds
-// cron.schedule('*/5 * * * * *', async () => {
-//   try {
-//     // await spreadsheetService.createAndPopulateSpreadsheet();
-//     const usersWithReport = await userService.getUsersWithActiveReports();
-//     const users = await userService.getAllUsers();
-
-//     console.log('users with report', usersWithReport.length);
-//     console.log('users', users.length);
-//     console.log('users without report', users.length - usersWithReport.length);
-//     console.log('Spreadsheet updated successfully.');
-//   } catch (error) {
-//     console.error('Failed to update the spreadsheet:', error);
-//   }
-// });
-
 app.use(express.static('assets'));
 app.use('/v1.0', routes);
 
@@ -77,7 +46,10 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.all('/*', (req: Request, res: Response, next) => {
-  next(new Error('Resource unavailable'));
+  res.status(404).send({
+    success: false,
+    message: 'Route not found',
+  });
 });
 
 app.use((err: any, req: Request, res: Response) => {

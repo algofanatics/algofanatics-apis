@@ -49,7 +49,7 @@ class Tools {
   }
 
   validateMongooseId(id: string): boolean {
-     return (mongoose.Types.ObjectId.isValid(id)) 
+    return mongoose.Types.ObjectId.isValid(id);
   }
 }
 

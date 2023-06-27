@@ -14,6 +14,7 @@ const {
   resendEmail,
   softDeleteUser,
   getBlogs,
+  googleAuth,
 } = AuthController;
 const {
   inspectRegisterUser,
@@ -31,5 +32,8 @@ router.get('/verify', inspectVerifyToken, verifyToken);
 router.patch('/status', inspectToggleActivationStatus, softDeleteUser);
 router.get('/me/:id', getUser);
 router.get('/blog', BlogMiddleware.inspectBlogQuery, getBlogs);
+router.get('/gg', googleAuth.getAuthUrl.bind(googleAuth));
+router.get('/gg/signup', googleAuth.signUp.bind(googleAuth));
+router.get('/gg/signin', googleAuth.signUp.bind(googleAuth));
 
 export default router;

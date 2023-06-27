@@ -21,13 +21,13 @@ export type BlogUpdateType = {
   media?: {
     [key: string]: string;
   };
-}
+};
 
 export type BlogMediaUploadType = {
   mediaName: string;
   blogId: string;
   author: string;
-}
+};
 
 export type BlogQueryType = {
   tag?: string;

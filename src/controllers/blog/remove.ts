@@ -1,9 +1,5 @@
 import { Request, Response } from 'express';
-import {
-  ResponseCode,
-  ResponseType,
-  StatusCode,
-} from '../../@types';
+import { ResponseCode, ResponseType, StatusCode } from '../../@types';
 import { Toolbox } from '../../utils';
 import { blogService } from '../../service';
 
@@ -11,7 +7,6 @@ const { apiResponse } = Toolbox;
 
 async function remove(req: Request, res: Response) {
   try {
-
     const { blogId } = req.params;
 
     await blogService.deleteBlog(blogId);

@@ -13,5 +13,4 @@ router.delete('/:blogId', inspectBlogId, remove);
 router.get('/', inspectBlogId, inspectBlogQuery, get);
 router.post('/upload', inspectBlogId, Uploader.single('media'), inspectUploadBlogMedia, upload);
 
-
 export default router;

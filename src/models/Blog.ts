@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import { tagEnum } from '../@types';
 
-
 const BlogSchema = new mongoose.Schema(
   {
     title: {
@@ -25,7 +24,7 @@ const BlogSchema = new mongoose.Schema(
     media: {
       type: Object,
       default: {},
-    }, 
+    },
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true }
 );

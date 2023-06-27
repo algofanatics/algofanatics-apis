@@ -9,7 +9,7 @@ const BlogController = {
   update,
   remove,
   get,
-  upload
+  upload,
 };
 
 export default BlogController;

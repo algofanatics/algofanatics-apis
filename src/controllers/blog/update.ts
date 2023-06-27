@@ -1,10 +1,5 @@
 import { Request, Response } from 'express';
-import {
-  ResponseCode,
-  ResponseType,
-  StatusCode,
-  BlogUpdateType,
-} from '../../@types';
+import { ResponseCode, ResponseType, StatusCode, BlogUpdateType } from '../../@types';
 import { Toolbox } from '../../utils';
 import { blogService } from '../../service';
 import mongoose from 'mongoose';

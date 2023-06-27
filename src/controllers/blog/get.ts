@@ -1,9 +1,5 @@
 import { Request, Response } from 'express';
-import {
-  ResponseCode,
-  ResponseType,
-  StatusCode,
-} from '../../@types';
+import { ResponseCode, ResponseType, StatusCode } from '../../@types';
 import { Toolbox } from '../../utils';
 import { blogService } from '../../service';
 

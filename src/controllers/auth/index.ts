@@ -7,6 +7,7 @@ import verifyToken from './verifyToken';
 import softDeleteUser from './softDeleteUser';
 import getUser from './getUser';
 import getBlogs from './getBlogs';
+import googleAuth from './googleoauth';
 
 const AuthController = {
   genToken,
@@ -17,7 +18,8 @@ const AuthController = {
   verifyToken,
   softDeleteUser,
   getUser,
-  getBlogs
+  getBlogs,
+  googleAuth,
 };
 
 export default AuthController;

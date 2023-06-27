@@ -147,3 +147,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 env
+
+credentials.json

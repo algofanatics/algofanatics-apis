@@ -39,7 +39,9 @@ class BlogService {
     try {
       const blog = await Blog.find({
         author,
-      }).skip((page - 1) * limit).limit(limit);
+      })
+        .skip((page - 1) * limit)
+        .limit(limit);
       return blog;
     } catch (error) {
       throw new ApiError(
@@ -85,7 +87,7 @@ class BlogService {
     try {
       const blogs = await Blog.find()
         .skip((page - 1) * limit)
-        .limit(limit);;
+        .limit(limit);
       return blogs;
     } catch (error) {
       throw new ApiError(
