@@ -38,7 +38,7 @@ const UserMiddleware = {
   },
   async inspectVerifyToken(req: Request, res: Response, next: NextFunction) {
     try {
-      await userValidations.validateVerifyToken(req.query as RegisterType);
+      await userValidations.validateVerifyToken(req.query as any);
       next();
     } catch (error) {
       return apiResponse(

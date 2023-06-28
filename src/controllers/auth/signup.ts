@@ -7,7 +7,7 @@ import { numbers } from 'nanoid-dictionary';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import mailer from '../../utils/mailer';
-import User from '../../models/User';
+import User from '../../models/user.model';
 import { ResponseCode, ResponseType, StatusCode } from '../../@types';
 import { Toolbox } from '../../utils';
 import { logger, env } from '../../config';

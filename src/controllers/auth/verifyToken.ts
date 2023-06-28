@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import jwt from 'jsonwebtoken';
-import User from '../../models/User';
+import User from '../../models/user.model';
 
 async function verifyToken(req: Request, res: Response) {
   try {

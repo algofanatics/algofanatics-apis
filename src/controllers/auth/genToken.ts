@@ -4,7 +4,7 @@ import fs from 'fs';
 import { customAlphabet } from 'nanoid';
 import { numbers } from 'nanoid-dictionary';
 import mailer from '../../utils/mailer';
-import User from '../../models/User';
+import User from '../../models/user.model';
 import { ResponseCode, ResponseType, StatusCode } from '../../@types';
 import { Toolbox } from '../../utils';
 

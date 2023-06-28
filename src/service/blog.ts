@@ -1,4 +1,4 @@
-import Blog from '../models/Blog';
+import Blog from '../models/blog.model';
 import { StatusCode, BlogInterface, BlogUpdateType } from '../@types';
 import { ApiError } from '../utils';
 

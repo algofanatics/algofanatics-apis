@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import googleOauthService from '../../service/googleoauth';
 import jwt from 'jsonwebtoken';
 import { userService } from '../../service';
-import User from '../../models/User';
+import User from '../../models/user.model';
 import { StatusCode, Toolbox } from '../../utils';
 import { ResponseType, ResponseCode } from '../../@types';
 

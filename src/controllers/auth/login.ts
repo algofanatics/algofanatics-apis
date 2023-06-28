@@ -4,7 +4,7 @@ import fs from 'fs';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import mailer from '../../utils/mailer';
-import User from '../../models/User';
+import User from '../../models/user.model';
 import { env } from '../../config';
 import { ResponseCode, ResponseType, StatusCode } from '../../@types';
 import { Toolbox } from '../../utils';

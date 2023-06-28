@@ -3,7 +3,7 @@ import path from 'path';
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import mailer from '../../utils/mailer';
-import User from '../../models/User';
+import User from '../../models/user.model';
 import { ResponseCode, ResponseType, StatusCode, UserInterface } from '../../@types';
 import { env } from '../../config';
 import { Toolbox } from '../../utils';

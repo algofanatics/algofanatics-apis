@@ -1,9 +1,9 @@
-import User from '../models/User';
-import { StatusCode, UserInterface } from '../@types';
+import User from '../models/user.model';
+import { RegisterType, StatusCode, UserInterface } from '../@types';
 import { ApiError } from '../utils';
 
 class UserService {
-  async createUser(userData: UserInterface) {
+  async createUser(userData: RegisterType) {
     try {
       const user = new User(userData);
       await user.save();

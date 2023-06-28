@@ -2,6 +2,7 @@ import app from './index';
 import mongoose from 'mongoose';
 import { logger } from './config';
 import { AddressInfo } from 'net';
+import { seedAdmins } from './models/admin.seed';
 
 async function startApp() {
   try {
@@ -9,6 +10,7 @@ async function startApp() {
 
     const server: any = app.listen(process.env.PORT || 5000, () => {
       const { port, address } = server.address() as AddressInfo;
+      seedAdmins();
       console.log(`Server is running on http://${address}:${port}`);
     });
   } catch (error) {

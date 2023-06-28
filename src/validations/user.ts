@@ -7,7 +7,7 @@ const joi = Joi.extend(joiDate);
 const user = {
   async validateSignUp(payload: RegisterType) {
     const schema = joi.object({
-      username: joi.string().optional().label('username is required'),
+      username: joi.string().required().label('username is required'),
       email: joi.string().email().required().label('A valid email is required'),
       phoneNumber: joi.string().optional().allow('').label('A valid phone number is required'),
       password: joi
